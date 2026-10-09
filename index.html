@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harish-Chandra Digital Legacy 2026 | Memory Chambers & Tribute Wall</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="site-header">
+    <div class="nav-container">
+      <div class="brand-group">
+        <span class="badge-track">Track 09</span>
+        <div class="brand-title">
+          <h1>Harish-Chandra</h1>
+          <span class="subtitle">Digital Legacy Challenge 2026</span>
+        </div>
+      </div>
+      
+      <div class="nav-controls">
+        <button id="audio-toggle-btn" class="audio-btn" aria-label="Toggle Sound Effects" title="Sound Effects Toggle">
+          <i class="fa-solid fa-volume-high" id="audio-icon"></i>
+          <span id="audio-label">FX Audio: ON</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Entrance Sanctum -->
+  <section class="hero-sanctum">
+    <div class="hero-content">
+      <div class="ornament-top">✦ ❖ ✦</div>
+      <p class="hero-tag">The Architecture of Infinite Dimensions</p>
+      <h2 class="hero-heading">Digital Tribute Wall &amp; Memory Chambers</h2>
+      <blockquote class="hero-quote">
+        "I have often experienced that in mathematics the solution which is visually or structurally the most beautiful is in fact the correct one."
+      </blockquote>
+      <p class="hero-author">— Harish-Chandra (1923 – 1983) • Mathematician &amp; Physicist</p>
+      <div class="scroll-cue">
+        <span>Knock on the sanctum doors below to explore archival chambers</span>
+        <i class="fa-solid fa-angle-down"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 1: Architectural Memory Chambers -->
+  <section class="chambers-section" id="chambers">
+    <div class="section-header">
+      <span class="sub-title">Archival Sanctum</span>
+      <h2>The Three Memory Chambers</h2>
+      <p>Click on any brass door knocker to hear the acoustic resonance and enter his life journey.</p>
+    </div>
+
+    <div class="doors-grid">
+      
+      <!-- Door 1 -->
+      <div class="door-wrapper" data-door="cambridge" tabindex="0" role="button" aria-label="Open Kanpur and Cambridge Days Chamber">
+        <div class="door-frame">
+          <div class="door-pediment">Chamber I</div>
+          <div class="door-leaf" id="door-cambridge">
+            <div class="wood-grain-overlay"></div>
+            <div class="door-panel top-panel">
+              <span class="arch-filigree">❦</span>
+            </div>
+            <div class="door-knocker-assembly" title="Click to knock and enter">
+              <div class="knocker-mount"></div>
+              <div class="knocker-ring"></div>
+            </div>
+            <div class="door-panel bottom-panel">
+              <span class="chamber-plate">Kanpur &amp; Cambridge Days</span>
+            </div>
+          </div>
+        </div>
+        <div class="door-caption">
+          <h3>Kanpur &amp; Cambridge</h3>
+          <p>Early Life, Allahabad, &amp; Mentorship with Paul Dirac</p>
+          <span class="knock-prompt"><i class="fa-solid fa-hand-pointer"></i> Knock to Enter</span>
+        </div>
+      </div>
+
+      <!-- Door 2 -->
+      <div class="door-wrapper" data-door="princeton" tabindex="0" role="button" aria-label="Open The IAS Princeton Study Chamber">
+        <div class="door-frame">
+          <div class="door-pediment">Chamber II</div>
+          <div class="door-leaf" id="door-princeton">
+            <div class="wood-grain-overlay"></div>
+            <div class="door-panel top-panel">
+              <span class="arch-filigree">❦</span>
+            </div>
+            <div class="door-knocker-assembly" title="Click to knock and enter">
+              <div class="knocker-mount"></div>
+              <div class="knocker-ring"></div>
+            </div>
+            <div class="door-panel bottom-panel">
+              <span class="chamber-plate">The IAS Princeton Study</span>
+            </div>
+          </div>
+        </div>
+        <div class="door-caption">
+          <h3>The IAS Princeton Study</h3>
+          <p>Semisimple Lie Groups, Harish-Chandra Modules &amp; Plancherel Formula</p>
+          <span class="knock-prompt"><i class="fa-solid fa-hand-pointer"></i> Knock to Enter</span>
+        </div>
+      </div>
+
+      <!-- Door 3 -->
+      <div class="door-wrapper" data-door="philosophy" tabindex="0" role="button" aria-label="Open The Painter and Philosopher Chamber">
+        <div class="door-frame">
+          <div class="door-pediment">Chamber III</div>
+          <div class="door-leaf" id="door-philosophy">
+            <div class="wood-grain-overlay"></div>
+            <div class="door-panel top-panel">
+              <span class="arch-filigree">❦</span>
+            </div>
+            <div class="door-knocker-assembly" title="Click to knock and enter">
+              <div class="knocker-mount"></div>
+              <div class="knocker-ring"></div>
+            </div>
+            <div class="door-panel bottom-panel">
+              <span class="chamber-plate">The Painter &amp; Philosopher</span>
+            </div>
+          </div>
+        </div>
+        <div class="door-caption">
+          <h3>The Painter &amp; Philosopher</h3>
+          <p>Sketches, Musical Ear, Indian Epics &amp; Philosophical Inquiries</p>
+          <span class="knock-prompt"><i class="fa-solid fa-hand-pointer"></i> Knock to Enter</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 2: The Digital Tribute Wall -->
+  <section class="tribute-wall-section" id="tribute-wall">
+    <div class="section-header">
+      <span class="sub-title">Collective Remembrance</span>
+      <h2>Community Tribute Wall</h2>
+      <p>Leaves of gratitude, scholarly admiration, and reflections from across the world.</p>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="filter-bar" role="tablist" aria-label="Tribute categories">
+      <button class="filter-chip active" data-filter="all" role="tab" aria-selected="true">All Tributes</button>
+      <button class="filter-chip" data-filter="student" role="tab" aria-selected="false">Student</button>
+      <button class="filter-chip" data-filter="faculty" role="tab" aria-selected="false">Faculty</button>
+      <button class="filter-chip" data-filter="global-scholar" role="tab" aria-selected="false">Global Scholar</button>
+      <button class="filter-chip" data-filter="reflection" role="tab" aria-selected="false">Personal Reflection</button>
+    </div>
+
+    <!-- Masonry Grid -->
+    <div class="tributes-grid" id="tributes-grid" aria-live="polite">
+      <!-- Dynamic Tribute Cards Render Here -->
+    </div>
+  </section>
+
+  <!-- Floating "Leave a Tribute" Action Button -->
+  <button id="open-tribute-modal" class="floating-cta-btn" aria-label="Write a tribute message">
+    <i class="fa-solid fa-feather-pointed"></i>
+    <span>Leave a Tribute</span>
+  </button>
+
+  <!-- MODAL: Exhibition Chamber View -->
+  <div id="chamber-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card chamber-modal-card">
+      <button class="modal-close-btn" id="close-chamber-modal" aria-label="Close Chamber">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="chamber-modal-inner" id="chamber-modal-content">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Leave a Tribute Submission Form -->
+  <div id="tribute-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card form-modal-card">
+      <button class="modal-close-btn" id="close-tribute-modal" aria-label="Close Tribute Form">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      
+      <div class="form-header">
+        <span class="form-badge">✦ Sacred Memorial ✦</span>
+        <h3>Pen Your Tribute</h3>
+        <p>Offer your personal words or academic homage to the legacy of Harish-Chandra.</p>
+      </div>
+
+      <form id="tribute-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="author-name">Full Name <span class="required">*</span></label>
+            <input type="text" id="author-name" placeholder="e.g. Dr. A. Ramanathan" required maxlength="60">
+            <span class="field-error" id="name-error">Please enter your full name.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="author-role">Designation / Role <span class="required">*</span></label>
+            <input type="text" id="author-role" placeholder="e.g. Research Fellow in Lie Algebras" required maxlength="60">
+            <span class="field-error" id="role-error">Please enter your role or title.</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="author-affiliation">Affiliation / Institute <span class="required">*</span></label>
+            <input type="text" id="author-affiliation" placeholder="e.g. IISc Bangalore / TIFR" required maxlength="80">
+            <span class="field-error" id="affiliation-error">Please specify your institution.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="tribute-category">Category <span class="required">*</span></label>
+            <select id="tribute-category" required>
+              <option value="student">Student</option>
+              <option value="faculty">Faculty</option>
+              <option value="global-scholar">Global Scholar</option>
+              <option value="reflection">Personal Reflection</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="tribute-message">Your Tribute / Inscription <span class="required">*</span></label>
+          <textarea id="tribute-message" rows="4" placeholder="Share how his work or devotion to pure thought inspired you..." required minlength="15" maxlength="600"></textarea>
+          <div class="textarea-footer">
+            <span class="field-error" id="message-error">Tribute must be at least 15 characters long.</span>
+            <span class="char-count" id="char-counter">0 / 600</span>
+          </div>
+        </div>
+
+        <!-- Virtual Diya / Gold Candle Toggle -->
+        <div class="diya-toggle-wrap">
+          <label class="custom-switch">
+            <input type="checkbox" id="diya-toggle" checked>
+            <span class="slider"></span>
+          </label>
+          <div class="diya-text">
+            <strong>Light a Golden Diya (अखंड दीप)</strong>
+            <span>Add an eternal sacred flame to your tribute card</span>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-tribute-btn">
+          <i class="fa-solid fa-paper-plane"></i> Inscribe into Legacy Wall
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo">Harish-Chandra Digital Legacy 2026</div>
+      <p class="footer-desc">Commemorating the centennial brilliance of Professor Harish-Chandra, FRS (1923–1983).</p>
+      <div class="footer-creds">
+        <span>Curated with reverence for mathematical truth &amp; aesthetic harmony.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main Application Script -->
+  <script src="app.js"></script>
+</body>
+</html>
