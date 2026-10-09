@@ -3,20 +3,24 @@
  * Track 09: Memory Chambers & Tribute Wall
  */
 
-// Procedural Audio Synthesizer (No external sound files required)
-class SoundSynthesizer {
+// Procedural Audio Engine with safe fallback
+class SafeSoundSynthesizer {
   constructor() {
     this.ctx = null;
     this.soundEnabled = true;
   }
 
   init() {
-    if (!this.ctx) {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (AudioContextClass) this.ctx = new AudioContextClass();
-    }
-    if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume();
+    try {
+      if (!this.ctx) {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioClass) this.ctx = new AudioClass();
+      }
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
+    } catch (err) {
+      console.warn("Audio Context init prevented:", err);
     }
   }
 
@@ -25,18 +29,21 @@ class SoundSynthesizer {
     return this.soundEnabled;
   }
 
-  // Realistic Double Door Knock
   playKnock() {
     if (!this.soundEnabled) return;
-    this.init();
-    if (!this.ctx) return;
+    try {
+      this.init();
+      if (!this.ctx) return;
 
-    const t = this.ctx.currentTime;
-    this.thud(t);
-    this.thud(t + 0.16);
+      const t = this.ctx.currentTime;
+      this.triggerThud(t);
+      this.triggerThud(t + 0.16);
+    } catch (e) {
+      console.warn("Audio knock failed silently", e);
+    }
   }
 
-  thud(startTime) {
+  triggerThud(startTime) {
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
     const filter = this.ctx.createBiquadFilter();
@@ -62,31 +69,35 @@ class SoundSynthesizer {
 
   playChime() {
     if (!this.soundEnabled) return;
-    this.init();
-    if (!this.ctx) return;
+    try {
+      this.init();
+      if (!this.ctx) return;
 
-    const t = this.ctx.currentTime;
-    [440, 659.25, 880].forEach((freq, i) => {
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
+      const t = this.ctx.currentTime;
+      [440, 659.25, 880].forEach((freq, i) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
 
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, t + i * 0.05);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, t + i * 0.05);
 
-      gain.gain.setValueAtTime(0.18 / (i + 1), t + i * 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.2 + i * 0.1);
+        gain.gain.setValueAtTime(0.18 / (i + 1), t + i * 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.2 + i * 0.1);
 
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
 
-      osc.start(t + i * 0.05);
-      osc.stop(t + 1.4);
-    });
+        osc.start(t + i * 0.05);
+        osc.stop(t + 1.4);
+      });
+    } catch (e) {
+      console.warn("Audio chime failed silently", e);
+    }
   }
 }
 
-// Chamber Exhibit Data
-const CHAMBERS = {
+// Memory Chambers Archival Data
+const CHAMBERS_DATA = {
   cambridge: {
     room: "Chamber I",
     title: "Kanpur & Cambridge Days",
@@ -160,9 +171,9 @@ const DEFAULT_TRIBUTES = [
   }
 ];
 
-class App {
+class SanctumApp {
   constructor() {
-    this.sound = new SoundSynthesizer();
+    this.sound = new SafeSoundSynthesizer();
     this.tributes = [];
     this.filter = 'all';
 
@@ -196,74 +207,117 @@ class App {
   }
 
   bindEvents() {
-    // Audio Toggle
-    this.audioBtn.addEventListener('click', () => {
-      const active = this.sound.toggle();
-      this.audioIcon.className = active ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
-      this.audioLabel.textContent = active ? 'AUDIO: ON' : 'AUDIO: MUTED';
-      this.audioDot.style.background = active ? 'var(--antique-gold)' : '#64748B';
-      this.toast(active ? "Audio effects active" : "Audio muted");
-    });
+    // 1. Audio Toggle
+    if (this.audioBtn) {
+      this.audioBtn.addEventListener('click', () => {
+        const active = this.sound.toggle();
+        if (this.audioIcon) this.audioIcon.className = active ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
+        if (this.audioLabel) this.audioLabel.textContent = active ? 'AUDIO: ON' : 'AUDIO: MUTED';
+        if (this.audioDot) this.audioDot.style.background = active ? 'var(--antique-gold)' : '#64748B';
+        this.toast(active ? "Audio effects active" : "Audio muted");
+      });
+    }
 
-    // Doors Knock
+    // 2. Door Knock Interaction (Guaranteed Trigger)
     this.doors.forEach(door => {
-      const runKnock = () => {
-        const id = door.dataset.door;
-        const leaf = door.querySelector('.door-leaf');
-        const knocker = door.querySelector('.knocker-ring');
+      const triggerDoorFlow = (e) => {
+        // Prevent accidental multiple triggers
+        if (door.dataset.opening === "true") return;
+        door.dataset.opening = "true";
 
+        const chamberKey = door.getAttribute('data-door') || 'cambridge';
+        const doorLeaf = door.querySelector('.door-leaf');
+        const knockerRing = door.querySelector('.knocker-ring');
+
+        // Play wood knock sound
         this.sound.playKnock();
-        knocker.classList.add('knocker-tapping');
-        setTimeout(() => knocker.classList.remove('knocker-tapping'), 400);
 
-        setTimeout(() => leaf.classList.add('door-open'), 220);
+        // Animate knocker
+        if (knockerRing) {
+          knockerRing.classList.add('knocker-tapping');
+          setTimeout(() => knockerRing.classList.remove('knocker-tapping'), 400);
+        }
+
+        // Open 3D Door Leaf
+        if (doorLeaf) {
+          setTimeout(() => {
+            doorLeaf.classList.add('door-open');
+          }, 200);
+        }
+
+        // Reveal Chamber Modal
         setTimeout(() => {
           this.sound.playChime();
-          this.openChamber(id);
-          leaf.classList.remove('door-open');
-        }, 700);
+          this.openChamberModal(chamberKey);
+          
+          if (doorLeaf) {
+            doorLeaf.classList.remove('door-open');
+          }
+          door.dataset.opening = "false";
+        }, 650);
       };
 
-      door.addEventListener('click', runKnock);
+      door.addEventListener('click', triggerDoorFlow);
       door.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          runKnock();
+          triggerDoorFlow(e);
         }
       });
     });
 
-    this.closeChamber.addEventListener('click', () => this.closeChamberModal());
-    this.chamberModal.addEventListener('click', (e) => {
-      if (e.target === this.chamberModal) this.closeChamberModal();
-    });
+    // Close Chamber Modal
+    if (this.closeChamber) {
+      this.closeChamber.addEventListener('click', () => this.closeChamberModal());
+    }
+    if (this.chamberModal) {
+      this.chamberModal.addEventListener('click', (e) => {
+        if (e.target === this.chamberModal) this.closeChamberModal();
+      });
+    }
 
-    // Tributes
-    this.openTributeBtn.addEventListener('click', () => {
-      this.tributeModal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
+    // Tribute Modal
+    if (this.openTributeBtn) {
+      this.openTributeBtn.addEventListener('click', () => {
+        if (this.tributeModal) {
+          this.tributeModal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    }
 
-    this.closeTribute.addEventListener('click', () => this.closeFormModal());
-    this.tributeModal.addEventListener('click', (e) => {
-      if (e.target === this.tributeModal) this.closeFormModal();
-    });
+    if (this.closeTribute) {
+      this.closeTribute.addEventListener('click', () => this.closeFormModal());
+    }
+    if (this.tributeModal) {
+      this.tributeModal.addEventListener('click', (e) => {
+        if (e.target === this.tributeModal) this.closeFormModal();
+      });
+    }
 
+    // Filters
     this.filterChips.forEach(chip => {
       chip.addEventListener('click', () => {
         this.filterChips.forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
-        this.filter = chip.dataset.filter;
+        this.filter = chip.getAttribute('data-filter') || 'all';
         this.renderTributes();
       });
     });
 
-    this.messageInput.addEventListener('input', () => {
-      this.charCounter.textContent = `${this.messageInput.value.length} / 600`;
-    });
+    // Character Counter
+    if (this.messageInput && this.charCounter) {
+      this.messageInput.addEventListener('input', () => {
+        this.charCounter.textContent = `${this.messageInput.value.length} / 600`;
+      });
+    }
 
-    this.form.addEventListener('submit', (e) => this.submitTribute(e));
+    // Form Submit
+    if (this.form) {
+      this.form.addEventListener('submit', (e) => this.submitTribute(e));
+    }
 
+    // Esc Key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.closeChamberModal();
@@ -272,9 +326,9 @@ class App {
     });
   }
 
-  openChamber(id) {
-    const data = CHAMBERS[id];
-    if (!data) return;
+  openChamberModal(id) {
+    const data = CHAMBERS_DATA[id] || CHAMBERS_DATA.cambridge;
+    if (!this.chamberContent || !this.chamberModal) return;
 
     this.chamberContent.innerHTML = `
       <span class="room-badge">${data.room}</span>
@@ -294,19 +348,24 @@ class App {
     `;
 
     this.chamberModal.classList.add('active');
+    this.chamberModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   }
 
   closeChamberModal() {
+    if (!this.chamberModal) return;
     this.chamberModal.classList.remove('active');
+    this.chamberModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
 
   closeFormModal() {
+    if (!this.tributeModal) return;
     this.tributeModal.classList.remove('active');
+    this.tributeModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    this.form.reset();
-    this.charCounter.textContent = '0 / 600';
+    if (this.form) this.form.reset();
+    if (this.charCounter) this.charCounter.textContent = '0 / 600';
     document.querySelectorAll('.field-error').forEach(e => e.classList.remove('visible'));
   }
 
@@ -328,7 +387,9 @@ class App {
   }
 
   renderTributes() {
+    if (!this.tributesGrid) return;
     this.tributesGrid.innerHTML = '';
+    
     const filtered = this.tributes.filter(t => this.filter === 'all' || t.category === this.filter);
 
     if (filtered.length === 0) {
@@ -377,13 +438,17 @@ class App {
         </div>
       `;
 
-      card.querySelector('.flower-homage-btn').addEventListener('click', (e) => {
-        e.stopPropagation();
-        item.homageCount = (item.homageCount || 0) + 1;
-        card.querySelector('.count').textContent = item.homageCount;
-        this.saveData();
-        this.toast("Homage offered (सादर प्रणाम)");
-      });
+      const flowerBtn = card.querySelector('.flower-homage-btn');
+      if (flowerBtn) {
+        flowerBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          item.homageCount = (item.homageCount || 0) + 1;
+          const countSpan = card.querySelector('.count');
+          if (countSpan) countSpan.textContent = item.homageCount;
+          this.saveData();
+          this.toast("Homage offered (सादर प्रणाम)");
+        });
+      }
 
       this.tributesGrid.appendChild(card);
     });
@@ -391,18 +456,18 @@ class App {
 
   submitTribute(e) {
     e.preventDefault();
-    const name = document.getElementById('author-name').value.trim();
-    const role = document.getElementById('author-role').value.trim();
-    const inst = document.getElementById('author-affiliation').value.trim();
-    const cat = document.getElementById('tribute-category').value;
-    const msg = document.getElementById('tribute-message').value.trim();
-    const diya = document.getElementById('diya-toggle').checked;
+    const name = document.getElementById('author-name')?.value.trim();
+    const role = document.getElementById('author-role')?.value.trim();
+    const inst = document.getElementById('author-affiliation')?.value.trim();
+    const cat = document.getElementById('tribute-category')?.value;
+    const msg = document.getElementById('tribute-message')?.value.trim();
+    const diya = document.getElementById('diya-toggle')?.checked ?? true;
 
     let valid = true;
-    if (!name) { document.getElementById('name-error').classList.add('visible'); valid = false; }
-    if (!role) { document.getElementById('role-error').classList.add('visible'); valid = false; }
-    if (!inst) { document.getElementById('affiliation-error').classList.add('visible'); valid = false; }
-    if (!msg || msg.length < 15) { document.getElementById('message-error').classList.add('visible'); valid = false; }
+    if (!name) { document.getElementById('name-error')?.classList.add('visible'); valid = false; }
+    if (!role) { document.getElementById('role-error')?.classList.add('visible'); valid = false; }
+    if (!inst) { document.getElementById('affiliation-error')?.classList.add('visible'); valid = false; }
+    if (!msg || msg.length < 15) { document.getElementById('message-error')?.classList.add('visible'); valid = false; }
 
     if (!valid) return;
 
@@ -429,6 +494,7 @@ class App {
   }
 
   toast(msg) {
+    if (!this.toastContainer) return;
     const t = document.createElement('div');
     t.className = 'toast';
     t.innerHTML = `<i class="fa-solid fa-bell"></i> <span>${msg}</span>`;
@@ -437,4 +503,9 @@ class App {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => new App());
+// Guaranteed load listener
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => new SanctumApp());
+} else {
+  new SanctumApp();
+}
