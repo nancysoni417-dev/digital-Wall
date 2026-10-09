@@ -1,61 +1,50 @@
 /**
- * Harish-Chandra Digital Legacy Challenge 2026
- * Track 09: Digital Tribute Wall & Memory Chambers
- * Architecture: Clean Vanilla ES6+ & Procedural Web Audio API
+ * Harish-Chandra Digital Sanctum
+ * Track 09: Memory Chambers & Tribute Wall
  */
 
-// ==========================================================================
-// 1. Procedural Web Audio API Engine (No external sound files required)
-// ==========================================================================
-class WoodSoundSynthesizer {
+// Procedural Audio Synthesizer (No external sound files required)
+class SoundSynthesizer {
   constructor() {
     this.ctx = null;
     this.soundEnabled = true;
   }
 
-  initContext() {
+  init() {
     if (!this.ctx) {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx) {
-        this.ctx = new AudioCtx();
-      }
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) this.ctx = new AudioContextClass();
     }
     if (this.ctx && this.ctx.state === 'suspended') {
       this.ctx.resume();
     }
   }
 
-  toggleSound(forceState = null) {
-    if (forceState !== null) {
-      this.soundEnabled = forceState;
-    } else {
-      this.soundEnabled = !this.soundEnabled;
-    }
+  toggle(state = null) {
+    this.soundEnabled = state !== null ? state : !this.soundEnabled;
     return this.soundEnabled;
   }
 
-  // Realistic double door knock synthesized using envelope filters & resonant nodes
-  playDoorDoubleKnock() {
+  // Realistic Double Door Knock
+  playKnock() {
     if (!this.soundEnabled) return;
-    this.initContext();
+    this.init();
     if (!this.ctx) return;
 
-    const now = this.ctx.currentTime;
-    this.triggerWoodThud(now);
-    this.triggerWoodThud(now + 0.16); // Double knock offset
+    const t = this.ctx.currentTime;
+    this.thud(t);
+    this.thud(t + 0.16);
   }
 
-  triggerWoodThud(startTime) {
+  thud(startTime) {
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
     const filter = this.ctx.createBiquadFilter();
 
-    // Wood impact frequency character
     osc.type = 'triangle';
     osc.frequency.setValueAtTime(140, startTime);
-    osc.frequency.exponentialRampToValueAtTime(42, startTime + 0.12);
+    osc.frequency.exponentialRampToValueAtTime(40, startTime + 0.12);
 
-    // Resonant bandpass to mimic thick hollow oak wood panel
     filter.type = 'lowpass';
     filter.frequency.setValueAtTime(450, startTime);
     filter.frequency.exponentialRampToValueAtTime(100, startTime + 0.12);
@@ -71,68 +60,62 @@ class WoodSoundSynthesizer {
     osc.stop(startTime + 0.15);
   }
 
-  // Resonant bronze bell chime for memorial modal opening
-  playChamberChime() {
+  playChime() {
     if (!this.soundEnabled) return;
-    this.initContext();
+    this.init();
     if (!this.ctx) return;
 
-    const now = this.ctx.currentTime;
-    [440, 659.25, 880].forEach((freq, idx) => {
+    const t = this.ctx.currentTime;
+    [440, 659.25, 880].forEach((freq, i) => {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
 
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now + idx * 0.05);
+      osc.frequency.setValueAtTime(freq, t + i * 0.05);
 
-      gain.gain.setValueAtTime(0.18 / (idx + 1), now + idx * 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2 + idx * 0.1);
+      gain.gain.setValueAtTime(0.18 / (i + 1), t + i * 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.2 + i * 0.1);
 
       osc.connect(gain);
       gain.connect(this.ctx.destination);
 
-      osc.start(now + idx * 0.05);
-      osc.stop(now + 1.4);
+      osc.start(t + i * 0.05);
+      osc.stop(t + 1.4);
     });
   }
 }
 
-// ==========================================================================
-// 2. Curated Chamber Content Data
-// ==========================================================================
-const CHAMBER_DATA = {
+// Chamber Exhibit Data
+const CHAMBERS = {
   cambridge: {
-    roomNumber: "Chamber I",
+    room: "Chamber I",
     title: "Kanpur & Cambridge Days",
     snippet: "From the banks of the Ganges to Dirac's blackboard at St John's College.",
-    body: `Born in Kanpur in 1923, Harish-Chandra's meteoric brilliance was recognized early at the University of Allahabad by eminent physicist K. S. Krishnan. In 1945, he sailed for England to pursue his Ph.D. at Cambridge under the towering theoretical physicist Paul Dirac. While studying relativistic wave equations, Dirac noticed Harish-Chandra's unmatched instinct for geometric precision, remarking that his student possessed an unusually deep mathematical soul that transcended physical approximation alone.`,
+    body: "Born in Kanpur in 1923, Harish-Chandra's meteoric brilliance was recognized early at the University of Allahabad by eminent physicist K. S. Krishnan. In 1945, he sailed for England to pursue his Ph.D. at Cambridge under theoretical physicist Paul Dirac. While studying relativistic wave equations, Dirac noted his unusually deep mathematical soul that sought absolute logical harmony.",
     period: "1923 – 1947",
-    milestone: "Ph.D. under P.A.M. Dirac; Transition from theoretical physics to pure representation theory."
+    milestone: "Ph.D. under P.A.M. Dirac; Transition from physics to representation theory."
   },
   princeton: {
-    roomNumber: "Chamber II",
+    room: "Chamber II",
     title: "The IAS Princeton Study",
     snippet: "Architecting the infinite-dimensional representation theory of semisimple Lie groups.",
-    body: `Invited to the Institute for Advanced Study in Princeton by J. Robert Oppenheimer, Harish-Chandra embarked on a solitary mathematical odyssey. Over three relentless decades, he created almost single-handedly the infinite-dimensional representation theory of reductive Lie groups. His discovery of discrete series representations and the majestic Plancherel formula for semisimple Lie groups provided the indispensable bedrock upon which the modern Langlands Program now stands.`,
+    body: "Invited to the Institute for Advanced Study in Princeton by J. Robert Oppenheimer, Harish-Chandra embarked on a solitary mathematical odyssey. Over three decades, he created almost single-handedly the infinite-dimensional representation theory of reductive Lie groups and the Plancherel formula, the foundation of the modern Langlands Program.",
     period: "1950 – 1983",
-    milestone: "Discrete series characters, Plancherel Formula, Cole Prize (AMS), Fellow of the Royal Society."
+    milestone: "Discrete series characters, Plancherel Formula, Cole Prize (AMS), F.R.S."
   },
   philosophy: {
-    roomNumber: "Chamber III",
+    room: "Chamber III",
     title: "The Painter & Philosopher",
     snippet: "Reflecting on truth, silence, fine lines, and the music of Beethoven.",
-    body: `Outside mathematics, Harish-Chandra was a disciplined painter and an ardent devotee of classical music, particularly Beethoven. His notebooks frequently mingled mathematical calculations with thoughtful sketches and reflections from the Bhagavad Gita and French literature. Colleagues at Princeton recalled a scholar of ascetic grace and quiet warmth, who viewed every mathematical theorem as an unalterable work of timeless art carved out of eternity.`,
+    body: "Outside mathematics, Harish-Chandra was a disciplined painter and an ardent devotee of classical music, particularly Beethoven. His notebooks mingled mathematical formulas with sketches and reflections from the Gita, viewing theorems as unalterable works of timeless art carved out of eternity.",
     period: "Personal Legacy",
-    milestone: "Landscape watercolors, philosophical correspondences with Dirac and Weil, reflections on aesthetic purity."
+    milestone: "Landscape watercolors, philosophical correspondences with Dirac and Weil."
   }
 };
 
-// ==========================================================================
-// 3. Initial Curated Tributes Dataset
-// ==========================================================================
 const DEFAULT_TRIBUTES = [
   {
-    id: "trib-01",
+    id: "t-1",
     authorName: "Prof. Arvind S. Deshmukh",
     authorRole: "Professor of Pure Mathematics",
     authorAffiliation: "School of Mathematics, TIFR Mumbai",
@@ -143,7 +126,7 @@ const DEFAULT_TRIBUTES = [
     dateString: "Oct 2026"
   },
   {
-    id: "trib-02",
+    id: "t-2",
     authorName: "Elena Rostova",
     authorRole: "Doctoral Researcher in Harmonic Analysis",
     authorAffiliation: "École Normale Supérieure, Paris",
@@ -154,7 +137,7 @@ const DEFAULT_TRIBUTES = [
     dateString: "Sep 2026"
   },
   {
-    id: "trib-03",
+    id: "t-3",
     authorName: "Kavya N. Rao",
     authorRole: "M.Sc. Mathematics Scholar",
     authorAffiliation: "University of Allahabad Alumni",
@@ -165,7 +148,7 @@ const DEFAULT_TRIBUTES = [
     dateString: "Oct 2026"
   },
   {
-    id: "trib-04",
+    id: "t-4",
     authorName: "Marcus Sterling",
     authorRole: "Visiting Fellow",
     authorAffiliation: "Institute for Advanced Study, Princeton",
@@ -177,154 +160,124 @@ const DEFAULT_TRIBUTES = [
   }
 ];
 
-// ==========================================================================
-// 4. Main Application Controller
-// ==========================================================================
-class TributeApp {
+class App {
   constructor() {
-    this.soundEngine = new WoodSoundSynthesizer();
+    this.sound = new SoundSynthesizer();
     this.tributes = [];
-    this.currentFilter = 'all';
+    this.filter = 'all';
 
-    this.cacheDom();
+    this.initDOM();
     this.bindEvents();
-    this.loadTributes();
+    this.loadData();
   }
 
-  cacheDom() {
-    // Audio
-    this.audioToggleBtn = document.getElementById('audio-toggle-btn');
+  initDOM() {
+    this.audioBtn = document.getElementById('audio-toggle-btn');
     this.audioIcon = document.getElementById('audio-icon');
     this.audioLabel = document.getElementById('audio-label');
+    this.audioDot = document.querySelector('.audio-dot');
 
-    // Doors & Chambers
-    this.doorWrappers = document.querySelectorAll('.door-wrapper');
+    this.doors = document.querySelectorAll('.door-wrapper');
     this.chamberModal = document.getElementById('chamber-modal');
     this.chamberContent = document.getElementById('chamber-modal-content');
-    this.closeChamberBtn = document.getElementById('close-chamber-modal');
+    this.closeChamber = document.getElementById('close-chamber-modal');
 
-    // Tribute Wall
     this.tributesGrid = document.getElementById('tributes-grid');
     this.filterChips = document.querySelectorAll('.filter-chip');
-    this.openTributeModalBtn = document.getElementById('open-tribute-modal');
+    
+    this.openTributeBtn = document.getElementById('open-tribute-modal');
     this.tributeModal = document.getElementById('tribute-modal');
-    this.closeTributeBtn = document.getElementById('close-tribute-modal');
+    this.closeTribute = document.getElementById('close-tribute-modal');
 
-    // Submission Form
-    this.tributeForm = document.getElementById('tribute-form');
-    this.authorNameInput = document.getElementById('author-name');
-    this.authorRoleInput = document.getElementById('author-role');
-    this.authorAffiliationInput = document.getElementById('author-affiliation');
-    this.categorySelect = document.getElementById('tribute-category');
-    this.tributeMessageInput = document.getElementById('tribute-message');
+    this.form = document.getElementById('tribute-form');
     this.charCounter = document.getElementById('char-counter');
-    this.diyaToggle = document.getElementById('diya-toggle');
+    this.messageInput = document.getElementById('tribute-message');
     this.toastContainer = document.getElementById('toast-container');
   }
 
   bindEvents() {
     // Audio Toggle
-    this.audioToggleBtn.addEventListener('click', () => this.handleAudioToggle());
+    this.audioBtn.addEventListener('click', () => {
+      const active = this.sound.toggle();
+      this.audioIcon.className = active ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
+      this.audioLabel.textContent = active ? 'AUDIO: ON' : 'AUDIO: MUTED';
+      this.audioDot.style.background = active ? 'var(--antique-gold)' : '#64748B';
+      this.toast(active ? "Audio effects active" : "Audio muted");
+    });
 
-    // Door Knock & Chamber Interaction
-    this.doorWrappers.forEach(door => {
-      door.addEventListener('click', () => this.handleDoorInteraction(door));
+    // Doors Knock
+    this.doors.forEach(door => {
+      const runKnock = () => {
+        const id = door.dataset.door;
+        const leaf = door.querySelector('.door-leaf');
+        const knocker = door.querySelector('.knocker-ring');
+
+        this.sound.playKnock();
+        knocker.classList.add('knocker-tapping');
+        setTimeout(() => knocker.classList.remove('knocker-tapping'), 400);
+
+        setTimeout(() => leaf.classList.add('door-open'), 220);
+        setTimeout(() => {
+          this.sound.playChime();
+          this.openChamber(id);
+          leaf.classList.remove('door-open');
+        }, 700);
+      };
+
+      door.addEventListener('click', runKnock);
       door.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          this.handleDoorInteraction(door);
+          runKnock();
         }
       });
     });
 
-    this.closeChamberBtn.addEventListener('click', () => this.closeChamberModal());
+    this.closeChamber.addEventListener('click', () => this.closeChamberModal());
     this.chamberModal.addEventListener('click', (e) => {
       if (e.target === this.chamberModal) this.closeChamberModal();
     });
 
-    // Tribute Modals & Actions
-    this.openTributeModalBtn.addEventListener('click', () => this.openTributeModal());
-    this.closeTributeBtn.addEventListener('click', () => this.closeTributeModal());
-    this.tributeModal.addEventListener('click', (e) => {
-      if (e.target === this.tributeModal) this.closeTributeModal();
+    // Tributes
+    this.openTributeBtn.addEventListener('click', () => {
+      this.tributeModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
     });
 
-    // Filters
+    this.closeTribute.addEventListener('click', () => this.closeFormModal());
+    this.tributeModal.addEventListener('click', (e) => {
+      if (e.target === this.tributeModal) this.closeFormModal();
+    });
+
     this.filterChips.forEach(chip => {
       chip.addEventListener('click', () => {
         this.filterChips.forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
-        this.currentFilter = chip.dataset.filter;
+        this.filter = chip.dataset.filter;
         this.renderTributes();
       });
     });
 
-    // Character Counter
-    this.tributeMessageInput.addEventListener('input', () => {
-      const len = this.tributeMessageInput.value.length;
-      this.charCounter.textContent = `${len} / 600`;
+    this.messageInput.addEventListener('input', () => {
+      this.charCounter.textContent = `${this.messageInput.value.length} / 600`;
     });
 
-    // Form Submission
-    this.tributeForm.addEventListener('submit', (e) => this.handleFormSubmit(e));
+    this.form.addEventListener('submit', (e) => this.submitTribute(e));
 
-    // Global ESC key listener for modal closing
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.closeChamberModal();
-        this.closeTributeModal();
+        this.closeFormModal();
       }
     });
   }
 
-  // --- Audio Handler ---
-  handleAudioToggle() {
-    const isEnabled = this.soundEngine.toggleSound();
-    if (isEnabled) {
-      this.audioIcon.className = 'fa-solid fa-volume-high';
-      this.audioLabel.textContent = 'FX Audio: ON';
-      this.audioToggleBtn.style.borderColor = 'var(--antique-gold)';
-      this.showToast("Sanctum sound effects enabled");
-    } else {
-      this.audioIcon.className = 'fa-solid fa-volume-xmark';
-      this.audioLabel.textContent = 'FX Audio: MUTED';
-      this.audioToggleBtn.style.borderColor = 'var(--slate-muted)';
-      this.showToast("Sound muted");
-    }
-  }
-
-  // --- Door Knock & Reveal Flow ---
-  handleDoorInteraction(doorEl) {
-    const doorId = doorEl.dataset.door;
-    const doorLeaf = doorEl.querySelector('.door-leaf');
-    const knockerRing = doorEl.querySelector('.knocker-ring');
-
-    // 1. Trigger realistic audio knock
-    this.soundEngine.playDoorDoubleKnock();
-
-    // 2. Play knocker ring tapping animation
-    knockerRing.classList.add('knocker-tapping');
-    setTimeout(() => knockerRing.classList.remove('knocker-tapping'), 500);
-
-    // 3. Smooth 3D Door Swing
-    setTimeout(() => {
-      doorLeaf.classList.add('door-open');
-    }, 250);
-
-    // 4. Reveal Chamber Modal
-    setTimeout(() => {
-      this.soundEngine.playChamberChime();
-      this.openChamberModal(doorId);
-      doorLeaf.classList.remove('door-open'); // Reset for next visit
-    }, 750);
-  }
-
-  openChamberModal(doorKey) {
-    const data = CHAMBER_DATA[doorKey];
+  openChamber(id) {
+    const data = CHAMBERS[id];
     if (!data) return;
 
     this.chamberContent.innerHTML = `
-      <span class="room-badge">${data.roomNumber}</span>
+      <span class="room-badge">${data.room}</span>
       <h2>${data.title}</h2>
       <blockquote class="room-snippet">"${data.snippet}"</blockquote>
       <div class="room-body">${data.body}</div>
@@ -334,101 +287,72 @@ class TributeApp {
           <p>${data.period}</p>
         </div>
         <div class="meta-item">
-          <h4>Key Archival Resonance</h4>
+          <h4>Archival Resonance</h4>
           <p>${data.milestone}</p>
         </div>
       </div>
     `;
 
     this.chamberModal.classList.add('active');
-    this.chamberModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   }
 
   closeChamberModal() {
     this.chamberModal.classList.remove('active');
-    this.chamberModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
 
-  // --- Tribute Modal Handlers ---
-  openTributeModal() {
-    this.tributeModal.classList.add('active');
-    this.tributeModal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    this.authorNameInput.focus();
-  }
-
-  closeTributeModal() {
+  closeFormModal() {
     this.tributeModal.classList.remove('active');
-    this.tributeModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    this.tributeForm.reset();
+    this.form.reset();
     this.charCounter.textContent = '0 / 600';
-    this.clearErrors();
+    document.querySelectorAll('.field-error').forEach(e => e.classList.remove('visible'));
   }
 
-  clearErrors() {
-    document.querySelectorAll('.field-error').forEach(el => el.classList.remove('visible'));
-  }
-
-  // --- LocalStorage & Tributes Loading ---
-  loadTributes() {
+  loadData() {
     try {
-      const stored = localStorage.getItem('hc_legacy_tributes_2026');
-      if (stored) {
-        this.tributes = JSON.parse(stored);
-      } else {
-        this.tributes = [...DEFAULT_TRIBUTES];
-        this.saveTributesToStorage();
-      }
+      const stored = localStorage.getItem('hc_sanctum_tributes_2026');
+      this.tributes = stored ? JSON.parse(stored) : [...DEFAULT_TRIBUTES];
+      if (!stored) this.saveData();
     } catch (e) {
       this.tributes = [...DEFAULT_TRIBUTES];
     }
     this.renderTributes();
   }
 
-  saveTributesToStorage() {
+  saveData() {
     try {
-      localStorage.setItem('hc_legacy_tributes_2026', JSON.stringify(this.tributes));
-    } catch (e) {
-      console.warn("Storage full or unavailable");
-    }
+      localStorage.setItem('hc_sanctum_tributes_2026', JSON.stringify(this.tributes));
+    } catch (e) {}
   }
 
-  // --- Render Tributes Grid ---
   renderTributes() {
     this.tributesGrid.innerHTML = '';
-
-    const filtered = this.tributes.filter(t => {
-      if (this.currentFilter === 'all') return true;
-      return t.category === this.currentFilter;
-    });
+    const filtered = this.tributes.filter(t => this.filter === 'all' || t.category === this.filter);
 
     if (filtered.length === 0) {
       this.tributesGrid.innerHTML = `
         <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--slate-muted);">
-          <i class="fa-solid fa-feather" style="font-size: 2rem; color: var(--antique-gold); margin-bottom: 0.5rem; display:block;"></i>
-          No tributes recorded yet under this category. Be the first to inscribe one.
+          No tributes recorded under this filter.
         </div>
       `;
       return;
     }
 
+    const catLabels = {
+      'student': 'Student',
+      'faculty': 'Faculty',
+      'global-scholar': 'Global Scholar',
+      'reflection': 'Personal Reflection'
+    };
+
     filtered.forEach(item => {
       const card = document.createElement('article');
       card.className = 'tribute-card';
 
-      // Category display names
-      const catLabels = {
-        'student': 'Student',
-        'faculty': 'Faculty',
-        'global-scholar': 'Global Scholar',
-        'reflection': 'Personal Reflection'
-      };
-
-      const diyaHtml = item.hasDiya ? `
-        <div class="diya-badge" title="Eternal Flame Offered">
+      const diya = item.hasDiya ? `
+        <div class="diya-badge">
           <div class="flame-icon"></div>
           <span>Diya</span>
         </div>
@@ -437,124 +361,80 @@ class TributeApp {
       card.innerHTML = `
         <div class="card-top">
           <span class="category-tag tag-${item.category}">${catLabels[item.category] || 'Homage'}</span>
-          ${diyaHtml}
+          ${diya}
         </div>
-        <p class="tribute-text">"${this.escapeHtml(item.message)}"</p>
+        <p class="tribute-text">"${this.escape(item.message)}"</p>
         <div class="card-author-meta">
-          <h4 class="author-name">${this.escapeHtml(item.authorName)}</h4>
-          <p class="author-role-inst">${this.escapeHtml(item.authorRole)} • ${this.escapeHtml(item.authorAffiliation)}</p>
+          <h4 class="author-name">${this.escape(item.authorName)}</h4>
+          <p class="author-role-inst">${this.escape(item.authorRole)} • ${this.escape(item.authorAffiliation)}</p>
         </div>
         <div class="card-footer">
-          <span>${item.dateString || 'Legacy 2026'}</span>
-          <button class="flower-homage-btn" data-id="${item.id}" aria-label="Offer Flower Homage">
+          <span>${item.dateString || 'Oct 2026'}</span>
+          <button class="flower-homage-btn" data-id="${item.id}">
             <i class="fa-solid fa-spa"></i>
             <span class="count">${item.homageCount || 0}</span> Pranam
           </button>
         </div>
       `;
 
-      // Flower Homage button event
-      const homageBtn = card.querySelector('.flower-homage-btn');
-      homageBtn.addEventListener('click', (e) => {
+      card.querySelector('.flower-homage-btn').addEventListener('click', (e) => {
         e.stopPropagation();
-        this.incrementHomage(item.id, homageBtn);
+        item.homageCount = (item.homageCount || 0) + 1;
+        card.querySelector('.count').textContent = item.homageCount;
+        this.saveData();
+        this.toast("Homage offered (सादर प्रणाम)");
       });
 
       this.tributesGrid.appendChild(card);
     });
   }
 
-  incrementHomage(id, buttonEl) {
-    const item = this.tributes.find(t => t.id === id);
-    if (item) {
-      item.homageCount = (item.homageCount || 0) + 1;
-      const countSpan = buttonEl.querySelector('.count');
-      if (countSpan) countSpan.textContent = item.homageCount;
-      this.saveTributesToStorage();
-      this.showToast("Flower tribute offered (सादर प्रणाम)");
-    }
-  }
-
-  // --- Form Validation & Submission ---
-  handleFormSubmit(e) {
+  submitTribute(e) {
     e.preventDefault();
-    this.clearErrors();
+    const name = document.getElementById('author-name').value.trim();
+    const role = document.getElementById('author-role').value.trim();
+    const inst = document.getElementById('author-affiliation').value.trim();
+    const cat = document.getElementById('tribute-category').value;
+    const msg = document.getElementById('tribute-message').value.trim();
+    const diya = document.getElementById('diya-toggle').checked;
 
-    const name = this.authorNameInput.value.trim();
-    const role = this.authorRoleInput.value.trim();
-    const affiliation = this.authorAffiliationInput.value.trim();
-    const category = this.categorySelect.value;
-    const message = this.tributeMessageInput.value.trim();
-    const hasDiya = this.diyaToggle.checked;
+    let valid = true;
+    if (!name) { document.getElementById('name-error').classList.add('visible'); valid = false; }
+    if (!role) { document.getElementById('role-error').classList.add('visible'); valid = false; }
+    if (!inst) { document.getElementById('affiliation-error').classList.add('visible'); valid = false; }
+    if (!msg || msg.length < 15) { document.getElementById('message-error').classList.add('visible'); valid = false; }
 
-    let hasError = false;
+    if (!valid) return;
 
-    if (!name) {
-      document.getElementById('name-error').classList.add('visible');
-      hasError = true;
-    }
-    if (!role) {
-      document.getElementById('role-error').classList.add('visible');
-      hasError = true;
-    }
-    if (!affiliation) {
-      document.getElementById('affiliation-error').classList.add('visible');
-      hasError = true;
-    }
-    if (!message || message.length < 15) {
-      document.getElementById('message-error').classList.add('visible');
-      hasError = true;
-    }
-
-    if (hasError) return;
-
-    // Create tribute payload
-    const newTribute = {
+    this.tributes.unshift({
       id: "trib-" + Date.now(),
       authorName: name,
       authorRole: role,
-      authorAffiliation: affiliation,
-      category: category,
-      message: message,
-      hasDiya: hasDiya,
+      authorAffiliation: inst,
+      category: cat,
+      message: msg,
+      hasDiya: diya,
       homageCount: 1,
       dateString: "Oct 2026"
-    };
+    });
 
-    // Prepend new tribute so it appears first
-    this.tributes.unshift(newTribute);
-    this.saveTributesToStorage();
-    this.closeTributeModal();
+    this.saveData();
+    this.closeFormModal();
     this.renderTributes();
-    this.showToast("Your tribute has been inscribed into the Sanctum Wall ✦");
+    this.toast("Your tribute has been inscribed into the Sanctum Wall ✦");
   }
 
-  // --- Helpers ---
-  escapeHtml(str) {
-    if (!str) return '';
-    return str
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+  escape(s) {
+    return (s || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  showToast(message) {
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `<i class="fa-solid fa-bell"></i> <span>${message}</span>`;
-    this.toastContainer.appendChild(toast);
-
-    setTimeout(() => {
-      if (toast.parentNode) toast.parentNode.removeChild(toast);
-    }, 4000);
+  toast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.innerHTML = `<i class="fa-solid fa-bell"></i> <span>${msg}</span>`;
+    this.toastContainer.appendChild(t);
+    setTimeout(() => t.remove(), 3500);
   }
 }
 
-// ==========================================================================
-// 5. Initialize on DOM Ready
-// ==========================================================================
-document.addEventListener('DOMContentLoaded', () => {
-  window.appInstance = new TributeApp();
-});
+document.addEventListener('DOMContentLoaded', () => new App());

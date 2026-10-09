@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harish-Chandra Digital Legacy 2026 | Memory Chambers & Tribute Wall</title>
+  <title>Harish-Chandra Digital Sanctum | Track 09 Memorial Challenge</title>
   
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
   
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Stylesheet -->
+  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -21,52 +21,133 @@
   <!-- Top Navigation Header -->
   <header class="site-header">
     <div class="nav-container">
-      <div class="brand-group">
-        <span class="badge-track">Track 09</span>
-        <div class="brand-title">
-          <h1>Harish-Chandra</h1>
-          <span class="subtitle">Digital Legacy Challenge 2026</span>
-        </div>
-      </div>
       
-      <div class="nav-controls">
-        <button id="audio-toggle-btn" class="audio-btn" aria-label="Toggle Sound Effects" title="Sound Effects Toggle">
+      <!-- Brand Left with Infinity Icon -->
+      <a href="#" class="brand-link">
+        <div class="infinity-circle">
+          <span>∞</span>
+        </div>
+        <div class="brand-text-block">
+          <span class="track-tagline">TRACK 09 MEMORIAL CHALLENGE</span>
+          <div class="brand-title">
+            <span class="name">Harish-Chandra</span>
+            <span class="gold-sanctum">Digital Sanctum</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- Nav Menu & Audio Pill -->
+      <div class="nav-right">
+        <nav class="nav-links">
+          <a href="#chambers">Memory Chambers</a>
+          <a href="#tribute-wall">Community Tribute Wall</a>
+        </nav>
+        
+        <button id="audio-toggle-btn" class="audio-pill-btn" aria-label="Toggle Sound Effects">
+          <span class="audio-dot"></span>
           <i class="fa-solid fa-volume-high" id="audio-icon"></i>
-          <span id="audio-label">FX Audio: ON</span>
+          <span id="audio-label">AUDIO: ON</span>
         </button>
       </div>
+
     </div>
   </header>
 
-  <!-- Hero & Entrance Sanctum -->
+  <!-- Hero Section -->
   <section class="hero-sanctum">
-    <div class="hero-content">
-      <div class="ornament-top">✦ ❖ ✦</div>
-      <p class="hero-tag">The Architecture of Infinite Dimensions</p>
-      <h2 class="hero-heading">Digital Tribute Wall &amp; Memory Chambers</h2>
-      <blockquote class="hero-quote">
-        "I have often experienced that in mathematics the solution which is visually or structurally the most beautiful is in fact the correct one."
-      </blockquote>
-      <p class="hero-author">— Harish-Chandra (1923 – 1983) • Mathematician &amp; Physicist</p>
-      <div class="scroll-cue">
-        <span>Knock on the sanctum doors below to explore archival chambers</span>
-        <i class="fa-solid fa-angle-down"></i>
+    <!-- Subtle Orbit Celestial Lines -->
+    <div class="orbit-bg-wrap" aria-hidden="true">
+      <svg class="orbit-svg" viewBox="0 0 1200 800" fill="none">
+        <ellipse cx="780" cy="400" rx="460" ry="260" stroke="rgba(201, 162, 39, 0.14)" stroke-width="1.2" transform="rotate(-15 780 400)"/>
+        <ellipse cx="780" cy="400" rx="380" ry="180" stroke="rgba(232, 215, 168, 0.12)" stroke-width="1" stroke-dasharray="3 5" transform="rotate(22 780 400)"/>
+        <ellipse cx="780" cy="400" rx="280" ry="280" stroke="rgba(30, 78, 121, 0.35)" stroke-width="1"/>
+        <ellipse cx="780" cy="400" rx="560" ry="220" stroke="rgba(201, 162, 39, 0.08)" stroke-width="1" transform="rotate(-38 780 400)"/>
+      </svg>
+    </div>
+
+    <div class="hero-inner-container">
+      
+      <!-- Left Column -->
+      <div class="hero-left-col">
+        <div class="legacy-pill">
+          <span class="scroll-icon">📜</span>
+          <span>1923 – 1983 • CENTENARY LEGACY</span>
+        </div>
+
+        <h1 class="hero-main-title">
+          Harmonics of the<br>
+          <span class="italic-gold">Infinite Dimensions</span>
+        </h1>
+
+        <p class="hero-lead-text">
+          Harish-Chandra transformed 20th-century mathematics by single-handedly creating the foundational theory of infinite-dimensional representations of reductive semisimple Lie groups. Journey into his life, philosophy, and enduring mathematical architecture.
+        </p>
+
+        <!-- Quote Card Box -->
+        <div class="hero-quote-card">
+          <div class="quote-mark">“</div>
+          <p class="quote-body">
+            "I have often pondered over the roles to which I have been cast... Mathematics is not just a game with symbols, but a search for profound internal harmony."
+          </p>
+          <div class="quote-footer">
+            <span class="quote-author">— HARISH-CHANDRA</span>
+            <span class="quote-institute">INSTITUTE FOR ADVANCED STUDY</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons under Quote Card -->
+        <div class="hero-action-buttons">
+          <a href="#chambers" class="hero-btn hero-btn-gold">
+            <i class="fa-solid fa-door-open"></i>
+            <span>Knock &amp; Enter Chambers</span>
+          </a>
+          <a href="#tribute-wall" class="hero-btn hero-btn-navy">
+            <i class="fa-solid fa-leaf"></i>
+            <span>Offer Homage Wall</span>
+          </a>
+        </div>
       </div>
+
+      <!-- Right Column: Monolith Card -->
+      <div class="hero-right-col">
+        <div class="monolith-card">
+          
+          <div class="monolith-orbit-art">
+            <span class="group-tag">SL(2, ℝ)</span>
+            <div class="concentric-ring ring-outer"></div>
+            <div class="concentric-ring ring-inner"></div>
+            <div class="geometry-symbol">
+              <i class="fa-solid fa-compass-drafting"></i>
+            </div>
+          </div>
+
+          <h2 class="monolith-name">Harish-Chandra</h2>
+          <p class="monolith-honors">F.R.S. • COLE PRIZE LAUREATE</p>
+
+          <div class="monolith-divider"></div>
+
+          <blockquote class="monolith-tribute-snippet">
+            "His work was like building a monumental cathedral single-handedly from granite rocks."
+            <span class="borel-cite">— ARMAND BOREL</span>
+          </blockquote>
+
+        </div>
+      </div>
+
     </div>
   </section>
 
   <!-- SECTION 1: Architectural Memory Chambers -->
   <section class="chambers-section" id="chambers">
     <div class="section-header">
-      <span class="sub-title">Archival Sanctum</span>
+      <span class="sub-title">ARCHIVAL SANCTUM</span>
       <h2>The Three Memory Chambers</h2>
-      <p>Click on any brass door knocker to hear the acoustic resonance and enter his life journey.</p>
+      <p>Knock upon any brass knocker to trigger acoustic resonance and step into his life archives.</p>
     </div>
 
     <div class="doors-grid">
-      
       <!-- Door 1 -->
-      <div class="door-wrapper" data-door="cambridge" tabindex="0" role="button" aria-label="Open Kanpur and Cambridge Days Chamber">
+      <div class="door-wrapper" data-door="cambridge" tabindex="0" role="button" aria-label="Open Kanpur and Cambridge Chamber">
         <div class="door-frame">
           <div class="door-pediment">Chamber I</div>
           <div class="door-leaf" id="door-cambridge">
@@ -91,7 +172,7 @@
       </div>
 
       <!-- Door 2 -->
-      <div class="door-wrapper" data-door="princeton" tabindex="0" role="button" aria-label="Open The IAS Princeton Study Chamber">
+      <div class="door-wrapper" data-door="princeton" tabindex="0" role="button" aria-label="Open Princeton Study Chamber">
         <div class="door-frame">
           <div class="door-pediment">Chamber II</div>
           <div class="door-leaf" id="door-princeton">
@@ -110,13 +191,13 @@
         </div>
         <div class="door-caption">
           <h3>The IAS Princeton Study</h3>
-          <p>Semisimple Lie Groups, Harish-Chandra Modules &amp; Plancherel Formula</p>
+          <p>Semisimple Lie Groups, Plancherel Formula &amp; Characters</p>
           <span class="knock-prompt"><i class="fa-solid fa-hand-pointer"></i> Knock to Enter</span>
         </div>
       </div>
 
       <!-- Door 3 -->
-      <div class="door-wrapper" data-door="philosophy" tabindex="0" role="button" aria-label="Open The Painter and Philosopher Chamber">
+      <div class="door-wrapper" data-door="philosophy" tabindex="0" role="button" aria-label="Open Painter and Philosopher Chamber">
         <div class="door-frame">
           <div class="door-pediment">Chamber III</div>
           <div class="door-leaf" id="door-philosophy">
@@ -135,56 +216,60 @@
         </div>
         <div class="door-caption">
           <h3>The Painter &amp; Philosopher</h3>
-          <p>Sketches, Musical Ear, Indian Epics &amp; Philosophical Inquiries</p>
+          <p>Watercolor Canvases, Beethoven, &amp; Reflections on Truth</p>
           <span class="knock-prompt"><i class="fa-solid fa-hand-pointer"></i> Knock to Enter</span>
         </div>
       </div>
-
     </div>
   </section>
 
   <!-- SECTION 2: The Digital Tribute Wall -->
   <section class="tribute-wall-section" id="tribute-wall">
     <div class="section-header">
-      <span class="sub-title">Collective Remembrance</span>
+      <span class="sub-title">COLLECTIVE REMEMBRANCE</span>
       <h2>Community Tribute Wall</h2>
-      <p>Leaves of gratitude, scholarly admiration, and reflections from across the world.</p>
+      <p>Leaves of gratitude, scholarly admiration, and reflections from the global mathematical fellowship.</p>
     </div>
 
-    <!-- Category Filters -->
-    <div class="filter-bar" role="tablist" aria-label="Tribute categories">
-      <button class="filter-chip active" data-filter="all" role="tab" aria-selected="true">All Tributes</button>
-      <button class="filter-chip" data-filter="student" role="tab" aria-selected="false">Student</button>
-      <button class="filter-chip" data-filter="faculty" role="tab" aria-selected="false">Faculty</button>
-      <button class="filter-chip" data-filter="global-scholar" role="tab" aria-selected="false">Global Scholar</button>
-      <button class="filter-chip" data-filter="reflection" role="tab" aria-selected="false">Personal Reflection</button>
+    <!-- Filters -->
+    <div class="filter-bar" role="tablist">
+      <button class="filter-chip active" data-filter="all">All Tributes</button>
+      <button class="filter-chip" data-filter="student">Student</button>
+      <button class="filter-chip" data-filter="faculty">Faculty</button>
+      <button class="filter-chip" data-filter="global-scholar">Global Scholar</button>
+      <button class="filter-chip" data-filter="reflection">Personal Reflection</button>
     </div>
 
-    <!-- Masonry Grid -->
-    <div class="tributes-grid" id="tributes-grid" aria-live="polite">
-      <!-- Dynamic Tribute Cards Render Here -->
+    <!-- Grid -->
+    <div class="tributes-grid" id="tributes-grid">
+      <!-- Cards dynamically generated via JavaScript -->
     </div>
   </section>
 
-  <!-- Floating "Leave a Tribute" Action Button -->
-  <button id="open-tribute-modal" class="floating-cta-btn" aria-label="Write a tribute message">
-    <i class="fa-solid fa-feather-pointed"></i>
-    <span>Leave a Tribute</span>
-  </button>
+  <!-- Floating Dual Pill Button (Matches Image exactly) -->
+  <div class="floating-cta-container">
+    <button id="open-tribute-modal" class="floating-dual-pill" aria-label="Offer Tribute">
+      <div class="pill-left">
+        <i class="fa-solid fa-fire-flame-curved flame-glow"></i>
+        <span>Offer Tribute</span>
+      </div>
+      <div class="pill-right">
+        <span>HONOR LEGACY</span>
+      </div>
+    </button>
+  </div>
 
-  <!-- MODAL: Exhibition Chamber View -->
+  <!-- Chamber Exhibit Modal -->
   <div id="chamber-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-card chamber-modal-card">
       <button class="modal-close-btn" id="close-chamber-modal" aria-label="Close Chamber">
         <i class="fa-solid fa-xmark"></i>
       </button>
-      <div class="chamber-modal-inner" id="chamber-modal-content">
-        <!-- Injected via JavaScript -->
-      </div>
+      <div class="chamber-modal-inner" id="chamber-modal-content"></div>
     </div>
   </div>
 
-  <!-- MODAL: Leave a Tribute Submission Form -->
+  <!-- Tribute Form Modal -->
   <div id="tribute-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-card form-modal-card">
       <button class="modal-close-btn" id="close-tribute-modal" aria-label="Close Tribute Form">
@@ -192,9 +277,9 @@
       </button>
       
       <div class="form-header">
-        <span class="form-badge">✦ Sacred Memorial ✦</span>
+        <span class="form-badge">✦ SACRED MEMORIAL ✦</span>
         <h3>Pen Your Tribute</h3>
-        <p>Offer your personal words or academic homage to the legacy of Harish-Chandra.</p>
+        <p>Offer your personal words or academic homage to Professor Harish-Chandra.</p>
       </div>
 
       <form id="tribute-form" novalidate>
@@ -231,15 +316,14 @@
         </div>
 
         <div class="form-group">
-          <label for="tribute-message">Your Tribute / Inscription <span class="required">*</span></label>
-          <textarea id="tribute-message" rows="4" placeholder="Share how his work or devotion to pure thought inspired you..." required minlength="15" maxlength="600"></textarea>
+          <label for="tribute-message">Your Inscription <span class="required">*</span></label>
+          <textarea id="tribute-message" rows="4" placeholder="Share how his work or devotion to pure mathematics inspired you..." required minlength="15" maxlength="600"></textarea>
           <div class="textarea-footer">
             <span class="field-error" id="message-error">Tribute must be at least 15 characters long.</span>
             <span class="char-count" id="char-counter">0 / 600</span>
           </div>
         </div>
 
-        <!-- Virtual Diya / Gold Candle Toggle -->
         <div class="diya-toggle-wrap">
           <label class="custom-switch">
             <input type="checkbox" id="diya-toggle" checked>
@@ -247,7 +331,7 @@
           </label>
           <div class="diya-text">
             <strong>Light a Golden Diya (अखंड दीप)</strong>
-            <span>Add an eternal sacred flame to your tribute card</span>
+            <span>Include an eternal flame homage on your tribute card</span>
           </div>
         </div>
 
@@ -258,21 +342,19 @@
     </div>
   </div>
 
-  <!-- Toast Notification Container -->
-  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+  <!-- Notification Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
 
   <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-inner">
-      <div class="footer-logo">Harish-Chandra Digital Legacy 2026</div>
-      <p class="footer-desc">Commemorating the centennial brilliance of Professor Harish-Chandra, FRS (1923–1983).</p>
-      <div class="footer-creds">
-        <span>Curated with reverence for mathematical truth &amp; aesthetic harmony.</span>
-      </div>
+      <div class="footer-logo">Harish-Chandra Digital Sanctum</div>
+      <p class="footer-desc">Commemorating the legacy of Professor Harish-Chandra, FRS (1923–1983).</p>
+      <div class="footer-creds">Track 09 Memorial Challenge • 2026</div>
     </div>
   </footer>
 
-  <!-- Main Application Script -->
+  <!-- Application Script -->
   <script src="app.js"></script>
 </body>
 </html>
