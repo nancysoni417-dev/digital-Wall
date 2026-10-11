@@ -1,49 +1,37 @@
 /**
  * Harish-Chandra Digital Sanctum
- * Track 09: Memory Chambers & Tribute Wall
+ * Track 09: Dynamic Verified Tribute Wall & Memory Chambers
  */
 
-// Procedural Audio Engine with safe fallback
-class SafeSoundSynthesizer {
+class SoundEngine {
   constructor() {
     this.ctx = null;
-    this.soundEnabled = true;
+    this.enabled = true;
   }
-
   init() {
     try {
       if (!this.ctx) {
         const AudioClass = window.AudioContext || window.webkitAudioContext;
         if (AudioClass) this.ctx = new AudioClass();
       }
-      if (this.ctx && this.ctx.state === 'suspended') {
-        this.ctx.resume();
-      }
-    } catch (err) {
-      console.warn("Audio Context init prevented:", err);
-    }
+      if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+    } catch (e) {}
   }
-
-  toggle(state = null) {
-    this.soundEnabled = state !== null ? state : !this.soundEnabled;
-    return this.soundEnabled;
+  toggle() {
+    this.enabled = !this.enabled;
+    return this.enabled;
   }
-
   playKnock() {
-    if (!this.soundEnabled) return;
+    if (!this.enabled) return;
     try {
       this.init();
       if (!this.ctx) return;
-
       const t = this.ctx.currentTime;
-      this.triggerThud(t);
-      this.triggerThud(t + 0.16);
-    } catch (e) {
-      console.warn("Audio knock failed silently", e);
-    }
+      this.thud(t);
+      this.thud(t + 0.16);
+    } catch (e) {}
   }
-
-  triggerThud(startTime) {
+  thud(startTime) {
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
     const filter = this.ctx.createBiquadFilter();
@@ -66,43 +54,34 @@ class SafeSoundSynthesizer {
     osc.start(startTime);
     osc.stop(startTime + 0.15);
   }
-
   playChime() {
-    if (!this.soundEnabled) return;
+    if (!this.enabled) return;
     try {
       this.init();
       if (!this.ctx) return;
-
       const t = this.ctx.currentTime;
       [440, 659.25, 880].forEach((freq, i) => {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, t + i * 0.05);
-
         gain.gain.setValueAtTime(0.18 / (i + 1), t + i * 0.05);
         gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.2 + i * 0.1);
-
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-
         osc.start(t + i * 0.05);
         osc.stop(t + 1.4);
       });
-    } catch (e) {
-      console.warn("Audio chime failed silently", e);
-    }
+    } catch (e) {}
   }
 }
 
-// Memory Chambers Archival Data
 const CHAMBERS_DATA = {
   cambridge: {
     room: "Chamber I",
     title: "Kanpur & Cambridge Days",
     snippet: "From the banks of the Ganges to Dirac's blackboard at St John's College.",
-    body: "Born in Kanpur in 1923, Harish-Chandra's meteoric brilliance was recognized early at the University of Allahabad by eminent physicist K. S. Krishnan. In 1945, he sailed for England to pursue his Ph.D. at Cambridge under theoretical physicist Paul Dirac. While studying relativistic wave equations, Dirac noted his unusually deep mathematical soul that sought absolute logical harmony.",
+    body: "Born in Kanpur in 1923, Harish-Chandra's brilliance was recognized early at the University of Allahabad by K. S. Krishnan. In 1945, he sailed for England to study under Paul Dirac at Cambridge, exploring relativistic wave equations.",
     period: "1923 – 1947",
     milestone: "Ph.D. under P.A.M. Dirac; Transition from physics to representation theory."
   },
@@ -110,7 +89,7 @@ const CHAMBERS_DATA = {
     room: "Chamber II",
     title: "The IAS Princeton Study",
     snippet: "Architecting the infinite-dimensional representation theory of semisimple Lie groups.",
-    body: "Invited to the Institute for Advanced Study in Princeton by J. Robert Oppenheimer, Harish-Chandra embarked on a solitary mathematical odyssey. Over three decades, he created almost single-handedly the infinite-dimensional representation theory of reductive Lie groups and the Plancherel formula, the foundation of the modern Langlands Program.",
+    body: "Invited to the Institute for Advanced Study in Princeton by J. Robert Oppenheimer, Harish-Chandra spent three decades constructing the representation theory of reductive Lie groups and the Plancherel formula.",
     period: "1950 – 1983",
     milestone: "Discrete series characters, Plancherel Formula, Cole Prize (AMS), F.R.S."
   },
@@ -118,71 +97,77 @@ const CHAMBERS_DATA = {
     room: "Chamber III",
     title: "The Painter & Philosopher",
     snippet: "Reflecting on truth, silence, fine lines, and the music of Beethoven.",
-    body: "Outside mathematics, Harish-Chandra was a disciplined painter and an ardent devotee of classical music, particularly Beethoven. His notebooks mingled mathematical formulas with sketches and reflections from the Gita, viewing theorems as unalterable works of timeless art carved out of eternity.",
+    body: "Beyond equations, Harish-Chandra was a painter and lover of Beethoven. His notebooks were filled with sketches and philosophical reflections from Indian epics.",
     period: "Personal Legacy",
-    milestone: "Landscape watercolors, philosophical correspondences with Dirac and Weil."
+    milestone: "Landscape watercolors, philosophical letters with Dirac and Weil."
   }
 };
 
-const DEFAULT_TRIBUTES = [
+// Starter Tributes with Verified Credentials
+const INITIAL_TRIBUTES = [
   {
-    id: "t-1",
-    authorName: "Prof. Arvind S. Deshmukh",
+    id: "init-1",
+    authorName: "Aman Verma",
+    enrollmentId: "CSJMU2024-MTH042",
+    authorRole: "M.Sc. Mathematics (Sem II)",
+    authorAffiliation: "Chhatrapati Shahu Ji Maharaj University, Kanpur",
+    category: "student",
+    message: "Harish-Chandra sir showed every student in Kanpur and Allahabad that deepest universal truths can be uncovered right with pen, paper, and uncompromised dedication.",
+    hasDiya: true,
+    homageCount: 38,
+    dateString: "Oct 2026"
+  },
+  {
+    id: "init-2",
+    authorName: "Dr. Arvind S. Deshmukh",
+    enrollmentId: "TIFR-FAC-881",
     authorRole: "Professor of Pure Mathematics",
     authorAffiliation: "School of Mathematics, TIFR Mumbai",
     category: "faculty",
-    message: "His papers read like ancient cathedrals—every pillar and arch placed with unyielding logical precision. Studying his Plancherel formula as a young doctoral student forever shaped my reverence for mathematical elegance.",
+    message: "His papers read like ancient cathedrals—every pillar and arch placed with unyielding logical precision. Studying his Plancherel formula forever shaped our department's curriculum.",
     hasDiya: true,
-    homageCount: 42,
+    homageCount: 47,
     dateString: "Oct 2026"
   },
   {
-    id: "t-2",
+    id: "init-3",
     authorName: "Elena Rostova",
-    authorRole: "Doctoral Researcher in Harmonic Analysis",
+    enrollmentId: "ENS-PARIS-2026",
+    authorRole: "Doctoral Fellow in Harmonic Analysis",
     authorAffiliation: "École Normale Supérieure, Paris",
     category: "global-scholar",
-    message: "Harish-Chandra taught the mathematical world that infinite dimensions are not chaotic voids, but structured harmonies waiting for the disciplined mind to uncover their characters.",
+    message: "Harish-Chandra proved that infinite dimensions are not chaotic voids, but structured harmonies waiting for the disciplined mind to uncover their characters.",
     hasDiya: true,
-    homageCount: 31,
+    homageCount: 29,
     dateString: "Sep 2026"
   },
   {
-    id: "t-3",
-    authorName: "Kavya N. Rao",
-    authorRole: "M.Sc. Mathematics Scholar",
-    authorAffiliation: "University of Allahabad Alumni",
-    category: "student",
-    message: "Walking through the historic halls where he studied in Allahabad fills us with immense pride. He showed that devotion to fundamental truth from India can sculpt global mathematical frontiers.",
-    hasDiya: false,
-    homageCount: 19,
-    dateString: "Oct 2026"
-  },
-  {
-    id: "t-4",
-    authorName: "Marcus Sterling",
-    authorRole: "Visiting Fellow",
-    authorAffiliation: "Institute for Advanced Study, Princeton",
+    id: "init-4",
+    authorName: "Rohit K. Mishra",
+    enrollmentId: "ALUM-AU-99",
+    authorRole: "Mathematics Educator",
+    authorAffiliation: "Prayagraj, Uttar Pradesh",
     category: "reflection",
-    message: "On crisp autumn afternoons in Princeton, passing his former office is a reminder of absolute focus. He worked with the devotion of a monk and the imagination of a Renaissance master.",
-    hasDiya: true,
-    homageCount: 57,
+    message: "Remembering him in Allahabad where his legacy was born. An epitome of simple living and infinite thinking.",
+    hasDiya: false,
+    homageCount: 18,
     dateString: "Aug 2026"
   }
 ];
 
-class SanctumApp {
+class SanctumWallApp {
   constructor() {
-    this.sound = new SafeSoundSynthesizer();
+    this.audio = new SoundEngine();
     this.tributes = [];
-    this.filter = 'all';
+    this.activeFilter = 'all';
 
-    this.initDOM();
-    this.bindEvents();
+    this.cacheDom();
+    this.setupEventListeners();
     this.loadData();
+    this.updateFormFieldsForRole(); // Initialize dynamic labels
   }
 
-  initDOM() {
+  cacheDom() {
     this.audioBtn = document.getElementById('audio-toggle-btn');
     this.audioIcon = document.getElementById('audio-icon');
     this.audioLabel = document.getElementById('audio-label');
@@ -191,84 +176,81 @@ class SanctumApp {
     this.doors = document.querySelectorAll('.door-wrapper');
     this.chamberModal = document.getElementById('chamber-modal');
     this.chamberContent = document.getElementById('chamber-modal-content');
-    this.closeChamber = document.getElementById('close-chamber-modal');
+    this.closeChamberBtn = document.getElementById('close-chamber-modal');
 
     this.tributesGrid = document.getElementById('tributes-grid');
     this.filterChips = document.querySelectorAll('.filter-chip');
-    
+
     this.openTributeBtn = document.getElementById('open-tribute-modal');
     this.tributeModal = document.getElementById('tribute-modal');
-    this.closeTribute = document.getElementById('close-tribute-modal');
+    this.closeTributeBtn = document.getElementById('close-tribute-modal');
 
     this.form = document.getElementById('tribute-form');
-    this.charCounter = document.getElementById('char-counter');
+    this.categorySelect = document.getElementById('tribute-category');
+    this.nameInput = document.getElementById('author-name');
+    this.idInput = document.getElementById('id-number');
+    this.affiliationInput = document.getElementById('author-affiliation');
+    this.roleInput = document.getElementById('author-role');
     this.messageInput = document.getElementById('tribute-message');
+    this.charCounter = document.getElementById('char-counter');
+    this.diyaToggle = document.getElementById('diya-toggle');
     this.toastContainer = document.getElementById('toast-container');
+
+    // Dynamic field labels
+    this.lblName = document.getElementById('lbl-name');
+    this.lblId = document.getElementById('lbl-id-number');
+    this.lblDept = document.getElementById('lbl-dept');
+    this.groupId = document.getElementById('group-id-number');
   }
 
-  bindEvents() {
-    // 1. Audio Toggle
+  setupEventListeners() {
+    // Audio Toggle
     if (this.audioBtn) {
       this.audioBtn.addEventListener('click', () => {
-        const active = this.sound.toggle();
-        if (this.audioIcon) this.audioIcon.className = active ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
-        if (this.audioLabel) this.audioLabel.textContent = active ? 'AUDIO: ON' : 'AUDIO: MUTED';
-        if (this.audioDot) this.audioDot.style.background = active ? 'var(--antique-gold)' : '#64748B';
-        this.toast(active ? "Audio effects active" : "Audio muted");
+        const on = this.audio.toggle();
+        this.audioIcon.className = on ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
+        this.audioLabel.textContent = on ? 'AUDIO: ON' : 'AUDIO: MUTED';
+        if (this.audioDot) this.audioDot.style.background = on ? 'var(--antique-gold)' : '#64748B';
+        this.showToast(on ? "FX Audio activated" : "Audio muted");
       });
     }
 
-    // 2. Door Knock Interaction (Guaranteed Trigger)
+    // Door Knocking & Revealing
     this.doors.forEach(door => {
-      const triggerDoorFlow = (e) => {
-        // Prevent accidental multiple triggers
-        if (door.dataset.opening === "true") return;
-        door.dataset.opening = "true";
-
-        const chamberKey = door.getAttribute('data-door') || 'cambridge';
+      const openChamber = () => {
         const doorLeaf = door.querySelector('.door-leaf');
-        const knockerRing = door.querySelector('.knocker-ring');
+        const knocker = door.querySelector('.knocker-ring');
+        const chamberId = door.getAttribute('data-door') || 'cambridge';
 
-        // Play wood knock sound
-        this.sound.playKnock();
+        this.audio.playKnock();
 
-        // Animate knocker
-        if (knockerRing) {
-          knockerRing.classList.add('knocker-tapping');
-          setTimeout(() => knockerRing.classList.remove('knocker-tapping'), 400);
+        if (knocker) {
+          knocker.classList.add('knocker-tapping');
+          setTimeout(() => knocker.classList.remove('knocker-tapping'), 400);
         }
 
-        // Open 3D Door Leaf
         if (doorLeaf) {
-          setTimeout(() => {
-            doorLeaf.classList.add('door-open');
-          }, 200);
+          setTimeout(() => doorLeaf.classList.add('door-open'), 180);
         }
 
-        // Reveal Chamber Modal
         setTimeout(() => {
-          this.sound.playChime();
-          this.openChamberModal(chamberKey);
-          
-          if (doorLeaf) {
-            doorLeaf.classList.remove('door-open');
-          }
-          door.dataset.opening = "false";
+          this.audio.playChime();
+          this.openChamberModal(chamberId);
+          if (doorLeaf) doorLeaf.classList.remove('door-open');
         }, 650);
       };
 
-      door.addEventListener('click', triggerDoorFlow);
+      door.addEventListener('click', openChamber);
       door.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          triggerDoorFlow(e);
+          openChamber();
         }
       });
     });
 
-    // Close Chamber Modal
-    if (this.closeChamber) {
-      this.closeChamber.addEventListener('click', () => this.closeChamberModal());
+    if (this.closeChamberBtn) {
+      this.closeChamberBtn.addEventListener('click', () => this.closeChamberModal());
     }
     if (this.chamberModal) {
       this.chamberModal.addEventListener('click', (e) => {
@@ -276,60 +258,98 @@ class SanctumApp {
       });
     }
 
-    // Tribute Modal
+    // Modal Opening
     if (this.openTributeBtn) {
       this.openTributeBtn.addEventListener('click', () => {
-        if (this.tributeModal) {
-          this.tributeModal.classList.add('active');
-          document.body.style.overflow = 'hidden';
-        }
+        this.tributeModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
       });
     }
-
-    if (this.closeTribute) {
-      this.closeTribute.addEventListener('click', () => this.closeFormModal());
+    if (this.closeTributeBtn) {
+      this.closeTributeBtn.addEventListener('click', () => this.closeTributeModal());
     }
     if (this.tributeModal) {
       this.tributeModal.addEventListener('click', (e) => {
-        if (e.target === this.tributeModal) this.closeFormModal();
+        if (e.target === this.tributeModal) this.closeTributeModal();
       });
     }
 
-    // Filters
+    // Filter Chips
     this.filterChips.forEach(chip => {
       chip.addEventListener('click', () => {
         this.filterChips.forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
-        this.filter = chip.getAttribute('data-filter') || 'all';
+        this.activeFilter = chip.getAttribute('data-filter') || 'all';
         this.renderTributes();
       });
     });
 
-    // Character Counter
+    // Dynamic Form Role Adaptation
+    if (this.categorySelect) {
+      this.categorySelect.addEventListener('change', () => this.updateFormFieldsForRole());
+    }
+
+    // Char counter
     if (this.messageInput && this.charCounter) {
       this.messageInput.addEventListener('input', () => {
         this.charCounter.textContent = `${this.messageInput.value.length} / 600`;
       });
     }
 
-    // Form Submit
+    // Submit handler
     if (this.form) {
-      this.form.addEventListener('submit', (e) => this.submitTribute(e));
+      this.form.addEventListener('submit', (e) => this.handleTributeSubmit(e));
     }
 
-    // Esc Key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.closeChamberModal();
-        this.closeFormModal();
+        this.closeTributeModal();
       }
     });
   }
 
+  // Dynamic field labels based on chosen category
+  updateFormFieldsForRole() {
+    const role = this.categorySelect.value;
+    if (role === 'student') {
+      this.lblName.innerHTML = `Student Full Name (As per ID Card) <span class="required">*</span>`;
+      this.lblId.innerHTML = `Enrollment / Roll Number <span class="required">*</span>`;
+      this.nameInput.placeholder = "e.g. Priyanshu Sharma";
+      this.idInput.placeholder = "e.g. EN2024MATH108";
+      this.lblDept.innerHTML = `Degree & Semester / Department <span class="required">*</span>`;
+      this.roleInput.placeholder = "e.g. M.Sc. Mathematics (Sem 3)";
+      this.groupId.style.display = 'flex';
+    } else if (role === 'faculty') {
+      this.lblName.innerHTML = `Faculty / Professor Name <span class="required">*</span>`;
+      this.lblId.innerHTML = `Employee / Faculty ID <span class="required">*</span>`;
+      this.nameInput.placeholder = "e.g. Dr. K. Ramanathan";
+      this.idInput.placeholder = "e.g. FAC-MATH-092";
+      this.lblDept.innerHTML = `Academic Designation & Dept <span class="required">*</span>`;
+      this.roleInput.placeholder = "e.g. Associate Professor in Algebra";
+      this.groupId.style.display = 'flex';
+    } else if (role === 'global-scholar') {
+      this.lblName.innerHTML = `Scholar / Researcher Name <span class="required">*</span>`;
+      this.lblId.innerHTML = `Scholar ID / Fellowship ID <span class="required">*</span>`;
+      this.nameInput.placeholder = "e.g. Elena Rostova";
+      this.idInput.placeholder = "e.g. ENS-SCH-2026";
+      this.lblDept.innerHTML = `Research Specialization <span class="required">*</span>`;
+      this.roleInput.placeholder = "e.g. Postdoctoral Fellow in Lie Groups";
+      this.groupId.style.display = 'flex';
+    } else {
+      // Personal Reflection
+      this.lblName.innerHTML = `Your Full Name <span class="required">*</span>`;
+      this.lblId.innerHTML = `Identification / City Reference`;
+      this.nameInput.placeholder = "e.g. Rajesh Kumar";
+      this.idInput.placeholder = "e.g. Prayagraj / Kanpur";
+      this.lblDept.innerHTML = `Profession / Relation <span class="required">*</span>`;
+      this.roleInput.placeholder = "e.g. Mathematics Enthusiast";
+      this.groupId.style.display = 'flex';
+    }
+  }
+
   openChamberModal(id) {
     const data = CHAMBERS_DATA[id] || CHAMBERS_DATA.cambridge;
-    if (!this.chamberContent || !this.chamberModal) return;
-
     this.chamberContent.innerHTML = `
       <span class="room-badge">${data.room}</span>
       <h2>${data.title}</h2>
@@ -346,166 +366,217 @@ class SanctumApp {
         </div>
       </div>
     `;
-
     this.chamberModal.classList.add('active');
-    this.chamberModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   }
 
   closeChamberModal() {
-    if (!this.chamberModal) return;
     this.chamberModal.classList.remove('active');
-    this.chamberModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
 
-  closeFormModal() {
-    if (!this.tributeModal) return;
+  closeTributeModal() {
     this.tributeModal.classList.remove('active');
-    this.tributeModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    if (this.form) this.form.reset();
-    if (this.charCounter) this.charCounter.textContent = '0 / 600';
+    this.form.reset();
+    this.charCounter.textContent = '0 / 600';
     document.querySelectorAll('.field-error').forEach(e => e.classList.remove('visible'));
+    this.updateFormFieldsForRole();
   }
 
   loadData() {
     try {
-      const stored = localStorage.getItem('hc_sanctum_tributes_2026');
-      this.tributes = stored ? JSON.parse(stored) : [...DEFAULT_TRIBUTES];
-      if (!stored) this.saveData();
+      const stored = localStorage.getItem('hc_dynamic_tributes_2026');
+      if (stored && JSON.parse(stored).length > 0) {
+        this.tributes = JSON.parse(stored);
+      } else {
+        this.tributes = [...INITIAL_TRIBUTES];
+        this.saveData();
+      }
     } catch (e) {
-      this.tributes = [...DEFAULT_TRIBUTES];
+      this.tributes = [...INITIAL_TRIBUTES];
     }
     this.renderTributes();
   }
 
   saveData() {
     try {
-      localStorage.setItem('hc_sanctum_tributes_2026', JSON.stringify(this.tributes));
+      localStorage.setItem('hc_dynamic_tributes_2026', JSON.stringify(this.tributes));
     } catch (e) {}
   }
 
   renderTributes() {
     if (!this.tributesGrid) return;
     this.tributesGrid.innerHTML = '';
-    
-    const filtered = this.tributes.filter(t => this.filter === 'all' || t.category === this.filter);
 
-    if (filtered.length === 0) {
+    const list = this.tributes.filter(t => this.activeFilter === 'all' || t.category === this.activeFilter);
+
+    if (list.length === 0) {
       this.tributesGrid.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--slate-muted);">
-          No tributes recorded under this filter.
+        <div class="no-tributes-state">
+          <i class="fa-solid fa-feather-pointed"></i>
+          <p>No verified tributes in this category yet. Be the first to register and inscribe!</p>
         </div>
       `;
       return;
     }
 
-    const catLabels = {
-      'student': 'Student',
-      'faculty': 'Faculty',
-      'global-scholar': 'Global Scholar',
-      'reflection': 'Personal Reflection'
+    const badgeMap = {
+      'student': { text: 'Verified Student', class: 'tag-student', icon: 'fa-graduation-cap' },
+      'faculty': { text: 'Faculty / Fellow', class: 'tag-faculty', icon: 'fa-building-columns' },
+      'global-scholar': { text: 'Global Scholar', class: 'tag-global-scholar', icon: 'fa-globe' },
+      'reflection': { text: 'Personal Homage', class: 'tag-reflection', icon: 'fa-heart' }
     };
 
-    filtered.forEach(item => {
+    list.forEach(item => {
       const card = document.createElement('article');
       card.className = 'tribute-card';
 
-      const diya = item.hasDiya ? `
-        <div class="diya-badge">
+      const roleBadge = badgeMap[item.category] || badgeMap.student;
+      const diyaBadge = item.hasDiya ? `
+        <div class="diya-badge" title="Sacred Diya Lit">
           <div class="flame-icon"></div>
-          <span>Diya</span>
+          <span>Akhand Diya</span>
         </div>
+      ` : '';
+
+      const idVerifiedBadge = item.enrollmentId ? `
+        <span class="verified-id-pill" title="Verified ID / Enrollment">
+          <i class="fa-solid fa-circle-check"></i> ${this.escape(item.enrollmentId)}
+        </span>
       ` : '';
 
       card.innerHTML = `
         <div class="card-top">
-          <span class="category-tag tag-${item.category}">${catLabels[item.category] || 'Homage'}</span>
-          ${diya}
+          <div class="badges-row">
+            <span class="category-tag ${roleBadge.class}">
+              <i class="fa-solid ${roleBadge.icon}"></i> ${roleBadge.text}
+            </span>
+            ${idVerifiedBadge}
+          </div>
+          ${diyaBadge}
         </div>
+
         <p class="tribute-text">"${this.escape(item.message)}"</p>
+
         <div class="card-author-meta">
           <h4 class="author-name">${this.escape(item.authorName)}</h4>
-          <p class="author-role-inst">${this.escape(item.authorRole)} • ${this.escape(item.authorAffiliation)}</p>
+          <p class="author-role-inst">
+            <strong>${this.escape(item.authorRole)}</strong><br>
+            <span>${this.escape(item.authorAffiliation)}</span>
+          </p>
         </div>
+
         <div class="card-footer">
-          <span>${item.dateString || 'Oct 2026'}</span>
-          <button class="flower-homage-btn" data-id="${item.id}">
+          <span class="card-date">${item.dateString || 'Oct 2026'}</span>
+          <button class="flower-homage-btn" data-id="${item.id}" aria-label="Offer Pranam">
             <i class="fa-solid fa-spa"></i>
             <span class="count">${item.homageCount || 0}</span> Pranam
           </button>
         </div>
       `;
 
-      const flowerBtn = card.querySelector('.flower-homage-btn');
-      if (flowerBtn) {
-        flowerBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          item.homageCount = (item.homageCount || 0) + 1;
-          const countSpan = card.querySelector('.count');
-          if (countSpan) countSpan.textContent = item.homageCount;
-          this.saveData();
-          this.toast("Homage offered (सादर प्रणाम)");
-        });
-      }
+      // Flower Homage counter
+      const homageBtn = card.querySelector('.flower-homage-btn');
+      homageBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        item.homageCount = (item.homageCount || 0) + 1;
+        card.querySelector('.count').textContent = item.homageCount;
+        this.saveData();
+        this.showToast("Flower homage offered (सादर प्रणाम)");
+      });
 
       this.tributesGrid.appendChild(card);
     });
   }
 
-  submitTribute(e) {
+  handleTributeSubmit(e) {
     e.preventDefault();
-    const name = document.getElementById('author-name')?.value.trim();
-    const role = document.getElementById('author-role')?.value.trim();
-    const inst = document.getElementById('author-affiliation')?.value.trim();
-    const cat = document.getElementById('tribute-category')?.value;
-    const msg = document.getElementById('tribute-message')?.value.trim();
-    const diya = document.getElementById('diya-toggle')?.checked ?? true;
+    document.querySelectorAll('.field-error').forEach(el => el.classList.remove('visible'));
 
-    let valid = true;
-    if (!name) { document.getElementById('name-error')?.classList.add('visible'); valid = false; }
-    if (!role) { document.getElementById('role-error')?.classList.add('visible'); valid = false; }
-    if (!inst) { document.getElementById('affiliation-error')?.classList.add('visible'); valid = false; }
-    if (!msg || msg.length < 15) { document.getElementById('message-error')?.classList.add('visible'); valid = false; }
+    const name = this.nameInput.value.trim();
+    const idVal = this.idInput.value.trim();
+    const inst = this.affiliationInput.value.trim();
+    const role = this.roleInput.value.trim();
+    const category = this.categorySelect.value;
+    const msg = this.messageInput.value.trim();
+    const diya = this.diyaToggle.checked;
 
-    if (!valid) return;
+    let hasError = false;
 
-    this.tributes.unshift({
+    if (!name) {
+      document.getElementById('name-error').classList.add('visible');
+      hasError = true;
+    }
+    if (!idVal) {
+      document.getElementById('id-error').classList.add('visible');
+      hasError = true;
+    }
+    if (!inst) {
+      document.getElementById('affiliation-error').classList.add('visible');
+      hasError = true;
+    }
+    if (!role) {
+      document.getElementById('role-error').classList.add('visible');
+      hasError = true;
+    }
+    if (!msg || msg.length < 15) {
+      document.getElementById('message-error').classList.add('visible');
+      hasError = true;
+    }
+
+    if (hasError) return;
+
+    // Create verified card object
+    const newEntry = {
       id: "trib-" + Date.now(),
       authorName: name,
+      enrollmentId: idVal,
       authorRole: role,
       authorAffiliation: inst,
-      category: cat,
+      category: category,
       message: msg,
       hasDiya: diya,
       homageCount: 1,
-      dateString: "Oct 2026"
+      dateString: "Just now"
+    };
+
+    // Prepend to display at top
+    this.tributes.unshift(newEntry);
+    this.saveData();
+    this.closeTributeModal();
+
+    // Auto set filter to 'all' so new card is immediately visible
+    this.activeFilter = 'all';
+    this.filterChips.forEach(c => {
+      c.classList.toggle('active', c.getAttribute('data-filter') === 'all');
     });
 
-    this.saveData();
-    this.closeFormModal();
     this.renderTributes();
-    this.toast("Your tribute has been inscribed into the Sanctum Wall ✦");
+    this.showToast("Your verified inscription is live on the Sanctum Wall! ✦");
+
+    // Smooth scroll to the Tribute Wall
+    const wallSec = document.getElementById('tribute-wall');
+    if (wallSec) wallSec.scrollIntoView({ behavior: 'smooth' });
   }
 
-  escape(s) {
-    return (s || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  escape(str) {
+    return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  toast(msg) {
+  showToast(msg) {
     if (!this.toastContainer) return;
-    const t = document.createElement('div');
-    t.className = 'toast';
-    t.innerHTML = `<i class="fa-solid fa-bell"></i> <span>${msg}</span>`;
-    this.toastContainer.appendChild(t);
-    setTimeout(() => t.remove(), 3500);
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>${msg}</span>`;
+    this.toastContainer.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
   }
 }
 
-// Guaranteed load listener
+// Auto start
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => new SanctumApp());
+  document.addEventListener('DOMContentLoaded', () => new SanctumWallApp());
 } else {
-  new SanctumApp();
+  new SanctumWallApp();
 }

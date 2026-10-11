@@ -1,360 +1,1439 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harish-Chandra Digital Sanctum | Track 09 Memorial Challenge</title>
+  <title>Harish-Chandra Digital Legacy Challenge 2026 | Track 09</title>
   
-  <!-- Fonts -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome Icons -->
+  <!-- Font Awesome for academic & memorial iconography -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              DEFAULT: '#0B1F33',
+              deep: '#061320',
+              light: '#132F4C'
+            },
+            royal: {
+              DEFAULT: '#1E4E79',
+              dark: '#143859',
+              light: '#2B6EA8'
+            },
+            gold: {
+              DEFAULT: '#C9A227',
+              muted: '#B08B1C',
+              bright: '#E5BF3B'
+            },
+            champagne: {
+              DEFAULT: '#E8D7A8',
+              light: '#F4ECD4',
+              soft: '#FBF8EE'
+            },
+            ivory: '#F7F4EC',
+            warmwhite: '#FFFDF8',
+            charcoal: '#20252B',
+            slateCustom: '#64748B'
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Inter"', 'sans-serif'],
+            quote: ['"Cormorant Garamond"', 'Georgia', 'serif']
+          },
+          boxShadow: {
+            'card': '0 10px 30px -10px rgba(11, 31, 51, 0.08)',
+            'card-hover': '0 20px 40px -12px rgba(11, 31, 51, 0.16)',
+            'gold-glow': '0 0 25px rgba(201, 162, 39, 0.35)',
+            'door-depth': '0 25px 50px -12px rgba(6, 19, 32, 0.65)'
+          }
+        }
+      }
+    }
+  </script>
 
-  <!-- Top Navigation Header -->
-  <header class="site-header">
-    <div class="nav-container">
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F7F4EC;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C9A227;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #B08B1C;
+    }
+
+    /* 3D Perspective & Door Framework */
+    .perspective-container {
+      perspective: 1400px;
+      perspective-origin: 50% 50%;
+    }
+    
+    .door-chassis {
+      transform-style: preserve-3d;
+      transition: transform 0.9s cubic-bezier(0.25, 1, 0.3, 1);
+    }
+    
+    .door-panel {
+      transform-origin: left center;
+      transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-style: preserve-3d;
+      background: linear-gradient(135deg, #2b1810 0%, #3e2216 45%, #25140d 100%);
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.8), 5px 0 25px rgba(0,0,0,0.5);
+    }
+    
+    .door-panel.open-swing {
+      transform: rotateY(-96deg);
+    }
+
+    /* Door Wood Paneling Insets */
+    .wood-inset {
+      box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.8),
+                  inset -2px -2px 5px rgba(255, 255, 255, 0.06),
+                  0 2px 4px rgba(0,0,0,0.4);
+      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.03) 100%);
+      border: 1px solid rgba(201, 162, 39, 0.25);
+    }
+
+    /* Knocker Animation */
+    @keyframes knockerTap {
+      0% { transform: rotate(0deg); }
+      20% { transform: rotate(-28deg); }
+      40% { transform: rotate(0deg); }
+      60% { transform: rotate(-24deg); }
+      80% { transform: rotate(0deg); }
+      100% { transform: rotate(0deg); }
+    }
+    
+    .knocker-knocking {
+      animation: knockerTap 0.65s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+      transform-origin: top center;
+    }
+
+    /* Diya Flame Pulsing Glow */
+    @keyframes flicker {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.92; }
+      25% { transform: scale(1.08, 0.94) translate(1px, -1px); opacity: 1; filter: drop-shadow(0 0 10px rgba(235, 170, 30, 0.9)); }
+      50% { transform: scale(0.96, 1.05) translate(-1px, 0.5px); opacity: 0.88; }
+      75% { transform: scale(1.04, 1.02) translate(0.5px, -0.8px); opacity: 0.98; }
+      100% { transform: scale(1) translate(0, 0); opacity: 0.92; }
+    }
+
+    .flame-particle {
+      animation: flicker 1.8s ease-in-out infinite alternate;
+      transform-origin: bottom center;
+    }
+
+    /* Soft entrance shimmer */
+    @keyframes dropInAnim {
+      from {
+        opacity: 0;
+        transform: translateY(-24px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .animate-drop-in {
+      animation: dropInAnim 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Brass Plaque effect */
+    .brass-plate {
+      background: linear-gradient(135deg, #d6ae38 0%, #aa8417 50%, #e8c857 100%);
+      color: #170f03;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+  </style>
+</head>
+<body class="bg-ivory text-charcoal font-sans antialiased selection:bg-gold selection:text-navy min-h-screen flex flex-col justify-between">
+
+  <header class="sticky top-0 z-40 bg-navy/95 backdrop-blur-md border-b border-gold/30 text-warmwhite transition-all shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
-      <!-- Brand Left with Infinity Icon -->
-      <a href="#" class="brand-link">
-        <div class="infinity-circle">
-          <span>∞</span>
+      <!-- Logo & Legacy Brand -->
+      <div class="flex items-center space-x-3.5">
+        <div class="w-10 h-10 rounded-full border-2 border-gold flex items-center justify-center bg-navy-light text-gold shadow-sm">
+          <i class="fa-solid fa-infinity text-lg"></i>
         </div>
-        <div class="brand-text-block">
-          <span class="track-tagline">TRACK 09 MEMORIAL CHALLENGE</span>
-          <div class="brand-title">
-            <span class="name">Harish-Chandra</span>
-            <span class="gold-sanctum">Digital Sanctum</span>
-          </div>
+        <div>
+          <span class="text-xs tracking-widest uppercase font-semibold text-champagne block">Track 09 Memorial Challenge</span>
+          <h1 class="text-lg sm:text-xl font-serif font-bold text-warmwhite tracking-tight leading-none">
+            Harish-Chandra <span class="text-gold font-normal italic font-quote text-2xl">Digital Sanctum</span>
+          </h1>
         </div>
-      </a>
-      
-      <!-- Nav Menu & Audio Pill -->
-      <div class="nav-right">
-        <nav class="nav-links">
-          <a href="#chambers">Memory Chambers</a>
-          <a href="#tribute-wall">Community Tribute Wall</a>
-        </nav>
-        
-        <button id="audio-toggle-btn" class="audio-pill-btn" aria-label="Toggle Sound Effects">
-          <span class="audio-dot"></span>
-          <i class="fa-solid fa-volume-high" id="audio-icon"></i>
-          <span id="audio-label">AUDIO: ON</span>
-        </button>
       </div>
 
+      <!-- Navigation & Audio Switch -->
+      <div class="flex items-center space-x-3 sm:space-x-6">
+        <a href="#chambers" class="hidden md:inline-flex text-sm text-champagne hover:text-gold transition font-medium tracking-wide">
+          Memory Chambers
+        </a>
+        <a href="#tributes" class="hidden md:inline-flex text-sm text-champagne hover:text-gold transition font-medium tracking-wide">
+          Community Tribute Wall
+        </a>
+
+        <!-- Sound FX Toggle Button -->
+        <button id="soundToggleBtn" 
+                class="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-navy-light border border-gold/40 hover:border-gold text-champagne transition shadow-sm hover:shadow-gold-glow"
+                aria-label="Toggle sound effects">
+          <span class="relative flex h-2 w-2">
+            <span id="soundPulse" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75"></span>
+            <span id="soundDot" class="relative inline-flex rounded-full h-2 w-2 bg-gold"></span>
+          </span>
+          <i id="soundIcon" class="fa-solid fa-volume-high text-gold"></i>
+          <span id="soundStatusText" class="hidden sm:inline">Audio: On</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero-sanctum">
-    <!-- Subtle Orbit Celestial Lines -->
-    <div class="orbit-bg-wrap" aria-hidden="true">
-      <svg class="orbit-svg" viewBox="0 0 1200 800" fill="none">
-        <ellipse cx="780" cy="400" rx="460" ry="260" stroke="rgba(201, 162, 39, 0.14)" stroke-width="1.2" transform="rotate(-15 780 400)"/>
-        <ellipse cx="780" cy="400" rx="380" ry="180" stroke="rgba(232, 215, 168, 0.12)" stroke-width="1" stroke-dasharray="3 5" transform="rotate(22 780 400)"/>
-        <ellipse cx="780" cy="400" rx="280" ry="280" stroke="rgba(30, 78, 121, 0.35)" stroke-width="1"/>
-        <ellipse cx="780" cy="400" rx="560" ry="220" stroke="rgba(201, 162, 39, 0.08)" stroke-width="1" transform="rotate(-38 780 400)"/>
+  <section class="relative bg-gradient-to-b from-navy via-navy-light to-royal text-warmwhite pt-14 pb-20 sm:pt-20 sm:pb-28 overflow-hidden">
+    <!-- Subtle mathematical harmonic wave backdrop decoration -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center">
+      <svg class="w-full h-full max-w-6xl" viewBox="0 0 1000 1000" fill="none" stroke="#C9A227" stroke-width="1.2">
+        <circle cx="500" cy="500" r="450" stroke-dasharray="12 12" />
+        <circle cx="500" cy="500" r="350" />
+        <circle cx="500" cy="500" r="250" stroke-dasharray="8 8" />
+        <ellipse cx="500" cy="500" rx="450" ry="200" transform="rotate(30 500 500)" />
+        <ellipse cx="500" cy="500" rx="450" ry="200" transform="rotate(60 500 500)" />
+        <ellipse cx="500" cy="500" rx="450" ry="200" transform="rotate(120 500 500)" />
       </svg>
     </div>
 
-    <div class="hero-inner-container">
-      
-      <!-- Left Column -->
-      <div class="hero-left-col">
-        <div class="legacy-pill">
-          <span class="scroll-icon">📜</span>
-          <span>1923 – 1983 • CENTENARY LEGACY</span>
-        </div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left: Reverent Introduction -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold/15 border border-gold/40 text-champagne text-xs uppercase tracking-widest font-semibold">
+            <i class="fa-solid fa-scroll text-gold"></i>
+            1923 – 1983 &bull; Centenary Legacy
+          </div>
 
-        <h1 class="hero-main-title">
-          Harmonics of the<br>
-          <span class="italic-gold">Infinite Dimensions</span>
-        </h1>
+          <h2 class="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold text-warmwhite leading-tight">
+            Harmonics of the <br><span class="text-gold italic font-quote font-normal text-4xl sm:text-6xl lg:text-7xl">Infinite Dimensions</span>
+          </h2>
 
-        <p class="hero-lead-text">
-          Harish-Chandra transformed 20th-century mathematics by single-handedly creating the foundational theory of infinite-dimensional representations of reductive semisimple Lie groups. Journey into his life, philosophy, and enduring mathematical architecture.
-        </p>
-
-        <!-- Quote Card Box -->
-        <div class="hero-quote-card">
-          <div class="quote-mark">“</div>
-          <p class="quote-body">
-            "I have often pondered over the roles to which I have been cast... Mathematics is not just a game with symbols, but a search for profound internal harmony."
+          <p class="text-base sm:text-lg text-champagne/90 font-light leading-relaxed max-w-2xl">
+            Harish-Chandra transformed 20th-century mathematics by single-handedly creating the foundational theory of infinite-dimensional representations of reductive semisimple Lie groups. Journey into his life, philosophy, and enduring mathematical architecture.
           </p>
-          <div class="quote-footer">
-            <span class="quote-author">— HARISH-CHANDRA</span>
-            <span class="quote-institute">INSTITUTE FOR ADVANCED STUDY</span>
-          </div>
-        </div>
 
-        <!-- Action Buttons under Quote Card -->
-        <div class="hero-action-buttons">
-          <a href="#chambers" class="hero-btn hero-btn-gold">
-            <i class="fa-solid fa-door-open"></i>
-            <span>Knock &amp; Enter Chambers</span>
-          </a>
-          <a href="#tribute-wall" class="hero-btn hero-btn-navy">
-            <i class="fa-solid fa-leaf"></i>
-            <span>Offer Homage Wall</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Right Column: Monolith Card -->
-      <div class="hero-right-col">
-        <div class="monolith-card">
-          
-          <div class="monolith-orbit-art">
-            <span class="group-tag">SL(2, ℝ)</span>
-            <div class="concentric-ring ring-outer"></div>
-            <div class="concentric-ring ring-inner"></div>
-            <div class="geometry-symbol">
-              <i class="fa-solid fa-compass-drafting"></i>
+          <!-- Archival Quote Card -->
+          <div class="p-6 rounded-2xl bg-navy/80 border-l-4 border-gold border-t border-r border-b border-champagne/20 shadow-2xl backdrop-blur-sm text-left">
+            <i class="fa-solid fa-quote-left text-2xl text-gold/60 mb-2 block"></i>
+            <p class="font-quote text-xl sm:text-2xl text-champagne italic leading-snug">
+              "I have often pondered over the roles to which I have been cast... Mathematics is not just a game with symbols, but a search for profound internal harmony."
+            </p>
+            <div class="mt-4 flex items-center justify-between text-xs tracking-wider text-slate-300 uppercase">
+              <span>— Harish-Chandra</span>
+              <span class="text-gold font-serif">Institute for Advanced Study</span>
             </div>
           </div>
 
-          <h2 class="monolith-name">Harish-Chandra</h2>
-          <p class="monolith-honors">F.R.S. • COLE PRIZE LAUREATE</p>
-
-          <div class="monolith-divider"></div>
-
-          <blockquote class="monolith-tribute-snippet">
-            "His work was like building a monumental cathedral single-handedly from granite rocks."
-            <span class="borel-cite">— ARMAND BOREL</span>
-          </blockquote>
-
+          <!-- Quick Action CTAs -->
+          <div class="pt-2 flex flex-wrap gap-4 justify-center lg:justify-start">
+            <a href="#chambers" class="px-6 py-3.5 rounded-xl bg-gold hover:bg-gold-bright text-navy font-bold text-sm tracking-wide transition shadow-lg hover:shadow-gold-glow flex items-center gap-2">
+              <i class="fa-solid fa-door-open"></i> Knock & Enter Chambers
+            </a>
+            <a href="#tributes" class="px-6 py-3.5 rounded-xl bg-navy-light/80 hover:bg-navy-light border border-gold/40 hover:border-gold text-warmwhite font-semibold text-sm tracking-wide transition flex items-center gap-2">
+              <i class="fa-solid fa-feather-pointed text-gold"></i> Offer Homage Wall
+            </a>
+          </div>
         </div>
-      </div>
 
-    </div>
-  </section>
+        <!-- Right: Geometric Frame / Portrait Sanctum -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-72 sm:w-80 h-96 sm:h-[420px] rounded-2xl p-3 bg-gradient-to-b from-gold/50 via-gold/20 to-champagne/40 border border-gold/60 shadow-2xl">
+            <div class="w-full h-full rounded-xl bg-navy-deep relative overflow-hidden flex flex-col items-center justify-center p-6 text-center border border-gold/30">
+              
+              <!-- Subtle decorative halo -->
+              <div class="absolute w-48 h-48 rounded-full bg-gold/10 blur-2xl"></div>
 
-  <!-- SECTION 1: Architectural Memory Chambers -->
-  <section class="chambers-section" id="chambers">
-    <div class="section-header">
-      <span class="sub-title">ARCHIVAL SANCTUM</span>
-      <h2>The Three Memory Chambers</h2>
-      <p>Knock upon any brass knocker to trigger acoustic resonance and step into his life archives.</p>
-    </div>
+              <!-- Symbolic Iconography representing Physics to Lie Algebra -->
+              <div class="w-32 h-32 rounded-full border-2 border-gold/60 p-2 flex items-center justify-center relative mb-6 shadow-inner bg-navy">
+                <div class="w-full h-full rounded-full border border-dashed border-champagne/40 flex items-center justify-center">
+                  <i class="fa-solid fa-compass-drafting text-4xl text-gold"></i>
+                </div>
+                <!-- Small orbiting symbol -->
+                <span class="absolute -top-2 right-4 bg-gold text-navy text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
+                  SL(2, ℝ)
+                </span>
+              </div>
 
-    <div class="doors-grid">
-      <!-- Door 1 -->
-      <div class="door-wrapper" data-door="cambridge" tabindex="0" role="button" aria-label="Open Kanpur and Cambridge Chamber">
-        <div class="door-frame">
-          <div class="door-pediment">Chamber I</div>
-          <div class="door-leaf" id="door-cambridge">
-            <div class="wood-grain-overlay"></div>
-            <div class="door-panel top-panel">
-              <span class="arch-filigree">❦</span>
-            </div>
-            <div class="door-knocker-assembly" title="Click to knock and enter">
-              <div class="knocker-mount"></div>
-              <div class="knocker-ring"></div>
-            </div>
-            <div class="door-panel bottom-panel">
-              <span class="chamber-plate">Kanpur &amp; Cambridge Days</span>
+              <h3 class="font-serif text-2xl font-bold text-warmwhite tracking-tight">Harish-Chandra</h3>
+              <p class="text-xs uppercase tracking-widest text-gold mt-1 font-semibold">F.R.S. &bull; Cole Prize Laureate</p>
+              
+              <div class="w-16 h-0.5 bg-gold/50 my-4"></div>
+
+              <p class="text-xs text-champagne/80 italic font-quote text-center leading-relaxed">
+                "His work was like building a monumental cathedral single-handedly from granite rocks."
+              </p>
+              <span class="text-[10px] text-slate-400 mt-2 uppercase tracking-wider">— Armand Borel</span>
             </div>
           </div>
         </div>
-        <div class="door-caption">
-          <h3>Kanpur &amp; Cambridge</h3>
-          <p>Early Life, Allahabad, &amp; Mentorship with Paul Dirac</p>
-          <span class="knock-prompt"><i class="fa-solid fa-hand-pointer"></i> Knock to Enter</span>
-        </div>
-      </div>
 
-      <!-- Door 2 -->
-      <div class="door-wrapper" data-door="princeton" tabindex="0" role="button" aria-label="Open Princeton Study Chamber">
-        <div class="door-frame">
-          <div class="door-pediment">Chamber II</div>
-          <div class="door-leaf" id="door-princeton">
-            <div class="wood-grain-overlay"></div>
-            <div class="door-panel top-panel">
-              <span class="arch-filigree">❦</span>
-            </div>
-            <div class="door-knocker-assembly" title="Click to knock and enter">
-              <div class="knocker-mount"></div>
-              <div class="knocker-ring"></div>
-            </div>
-            <div class="door-panel bottom-panel">
-              <span class="chamber-plate">The IAS Princeton Study</span>
-            </div>
-          </div>
-        </div>
-        <div class="door-caption">
-          <h3>The IAS Princeton Study</h3>
-          <p>Semisimple Lie Groups, Plancherel Formula &amp; Characters</p>
-          <span class="knock-prompt"><i class="fa-solid fa-hand-pointer"></i> Knock to Enter</span>
-        </div>
-      </div>
-
-      <!-- Door 3 -->
-      <div class="door-wrapper" data-door="philosophy" tabindex="0" role="button" aria-label="Open Painter and Philosopher Chamber">
-        <div class="door-frame">
-          <div class="door-pediment">Chamber III</div>
-          <div class="door-leaf" id="door-philosophy">
-            <div class="wood-grain-overlay"></div>
-            <div class="door-panel top-panel">
-              <span class="arch-filigree">❦</span>
-            </div>
-            <div class="door-knocker-assembly" title="Click to knock and enter">
-              <div class="knocker-mount"></div>
-              <div class="knocker-ring"></div>
-            </div>
-            <div class="door-panel bottom-panel">
-              <span class="chamber-plate">The Painter &amp; Philosopher</span>
-            </div>
-          </div>
-        </div>
-        <div class="door-caption">
-          <h3>The Painter &amp; Philosopher</h3>
-          <p>Watercolor Canvases, Beethoven, &amp; Reflections on Truth</p>
-          <span class="knock-prompt"><i class="fa-solid fa-hand-pointer"></i> Knock to Enter</span>
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 2: The Digital Tribute Wall -->
-  <section class="tribute-wall-section" id="tribute-wall">
-    <div class="section-header">
-      <span class="sub-title">COLLECTIVE REMEMBRANCE</span>
-      <h2>Community Tribute Wall</h2>
-      <p>Leaves of gratitude, scholarly admiration, and reflections from the global mathematical fellowship.</p>
-    </div>
-
-    <!-- Filters -->
-    <div class="filter-bar" role="tablist">
-      <button class="filter-chip active" data-filter="all">All Tributes</button>
-      <button class="filter-chip" data-filter="student">Student</button>
-      <button class="filter-chip" data-filter="faculty">Faculty</button>
-      <button class="filter-chip" data-filter="global-scholar">Global Scholar</button>
-      <button class="filter-chip" data-filter="reflection">Personal Reflection</button>
-    </div>
-
-    <!-- Grid -->
-    <div class="tributes-grid" id="tributes-grid">
-      <!-- Cards dynamically generated via JavaScript -->
-    </div>
-  </section>
-
-  <!-- Floating Dual Pill Button (Matches Image exactly) -->
-  <div class="floating-cta-container">
-    <button id="open-tribute-modal" class="floating-dual-pill" aria-label="Offer Tribute">
-      <div class="pill-left">
-        <i class="fa-solid fa-fire-flame-curved flame-glow"></i>
-        <span>Offer Tribute</span>
-      </div>
-      <div class="pill-right">
-        <span>HONOR LEGACY</span>
-      </div>
-    </button>
-  </div>
-
-  <!-- Chamber Exhibit Modal -->
-  <div id="chamber-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-card chamber-modal-card">
-      <button class="modal-close-btn" id="close-chamber-modal" aria-label="Close Chamber">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-      <div class="chamber-modal-inner" id="chamber-modal-content"></div>
-    </div>
-  </div>
-
-  <!-- Tribute Form Modal -->
-  <div id="tribute-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-card form-modal-card">
-      <button class="modal-close-btn" id="close-tribute-modal" aria-label="Close Tribute Form">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+  <section id="chambers" class="py-20 bg-ivory text-charcoal border-b border-champagne">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="form-header">
-        <span class="form-badge">✦ SACRED MEMORIAL ✦</span>
-        <h3>Pen Your Tribute</h3>
-        <p>Offer your personal words or academic homage to Professor Harish-Chandra.</p>
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-widest text-royal block mb-2">Interactive Sanctum Experience</span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-navy">The Three Memory Chambers</h2>
+        <div class="w-20 h-1 bg-gold mx-auto my-4 rounded-full"></div>
+        <p class="text-slateCustom font-normal text-base">
+          Tap or click on any chamber door knocker to sound the resonant wooden knock and step inside Harish-Chandra's intellectual pilgrimage.
+        </p>
       </div>
 
-      <form id="tribute-form" novalidate>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="author-name">Full Name <span class="required">*</span></label>
-            <input type="text" id="author-name" placeholder="e.g. Dr. A. Ramanathan" required maxlength="60">
-            <span class="field-error" id="name-error">Please enter your full name.</span>
+      <!-- 3 Door Panels Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 perspective-container">
+        
+        <!-- Chamber 1 Card & Door -->
+        <div class="group relative rounded-2xl bg-warmwhite border border-champagne p-4 shadow-card hover:shadow-card-hover transition-all flex flex-col">
+          <div class="relative h-96 w-full rounded-xl overflow-hidden bg-navy-deep border-4 border-[#3e251a] shadow-inner perspective-container">
+            
+            <!-- Interior Peek Reveal Backing -->
+            <div class="absolute inset-0 bg-gradient-to-b from-[#1b120c] to-[#0d0906] p-6 flex flex-col justify-center items-center text-center text-champagne">
+              <i class="fa-solid fa-atom text-4xl text-gold/80 mb-3 animate-pulse"></i>
+              <span class="text-xs uppercase tracking-widest text-gold font-semibold">Chamber Revealed</span>
+              <p class="text-sm font-serif mt-2 text-warmwhite">Kanpur & Cambridge Days</p>
+              <span class="mt-4 text-[11px] underline text-champagne/70">Entering Archives...</span>
+            </div>
+
+            <!-- The 3D Wooden Door Leaf -->
+            <div id="door-1" 
+                 class="door-panel absolute inset-0 z-20 flex flex-col justify-between p-5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
+                 tabindex="0"
+                 role="button"
+                 aria-label="Knock to enter Chamber 1: Kanpur and Cambridge Days"
+                 onclick="handleDoorKnock(1)"
+                 onkeydown="if(event.key==='Enter'||event.key===' ') handleDoorKnock(1)">
+              
+              <!-- Top Wood Inset -->
+              <div class="wood-inset h-24 rounded-lg flex items-center justify-center p-2 text-center">
+                <span class="text-[11px] tracking-widest uppercase font-serif text-gold/80">Chamber I &bull; 1923–1947</span>
+              </div>
+
+              <!-- Door Centerpiece: Brass Knocker & Plaque -->
+              <div class="flex flex-col items-center justify-center my-auto">
+                <!-- Brass Plate -->
+                <div class="brass-plate px-4 py-1.5 rounded-sm shadow-md text-center mb-6 border border-[#ffe07a]">
+                  <span class="font-serif font-bold text-xs tracking-wider block">THE ROOTS OF INQUIRY</span>
+                  <span class="text-[9px] uppercase tracking-widest block font-sans">Theoretical Physics</span>
+                </div>
+
+                <!-- Realistic Brass Knocker Element -->
+                <div id="knocker-1" class="relative flex flex-col items-center group-hover:scale-105 transition-transform">
+                  <div class="w-6 h-6 rounded-full bg-gradient-to-b from-gold-bright to-gold border-2 border-[#54400a] shadow-md"></div>
+                  <div class="w-12 h-14 border-4 border-gold-bright rounded-b-full -mt-2.5 shadow-lg bg-transparent flex items-end justify-center pb-1">
+                    <div class="w-3 h-3 rounded-full bg-gold border border-navy"></div>
+                  </div>
+                  <!-- Striking Stud -->
+                  <div class="w-4 h-4 rounded-full bg-[#1b120c] border border-gold mt-1"></div>
+                </div>
+                <span class="text-[10px] tracking-wider uppercase text-gold/90 font-medium mt-3 bg-black/40 px-2 py-0.5 rounded">
+                  <i class="fa-regular fa-hand-point-up mr-1"></i> Tap to Knock
+                </span>
+              </div>
+
+              <!-- Bottom Wood Inset -->
+              <div class="wood-inset h-20 rounded-lg flex items-center justify-center">
+                <span class="text-[10px] tracking-widest uppercase text-champagne/40">From Allahabad to Dirac</span>
+              </div>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="author-role">Designation / Role <span class="required">*</span></label>
-            <input type="text" id="author-role" placeholder="e.g. Research Fellow in Lie Algebras" required maxlength="60">
-            <span class="field-error" id="role-error">Please enter your role or title.</span>
+          <!-- Door Details Footer -->
+          <div class="mt-4 text-center">
+            <h3 class="font-serif font-bold text-lg text-navy">Kanpur & Cambridge Days</h3>
+            <p class="text-xs text-slateCustom mt-1">Allahabad University, Homi Bhabha mentorship, and Ph.D. under Paul Dirac.</p>
+            <button onclick="handleDoorKnock(1)" class="mt-3 text-xs font-semibold text-royal hover:text-gold transition uppercase tracking-wider inline-flex items-center gap-1">
+              <span>Step Inside Chamber</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
           </div>
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="author-affiliation">Affiliation / Institute <span class="required">*</span></label>
-            <input type="text" id="author-affiliation" placeholder="e.g. IISc Bangalore / TIFR" required maxlength="80">
-            <span class="field-error" id="affiliation-error">Please specify your institution.</span>
+        <!-- Chamber 2 Card & Door -->
+        <div class="group relative rounded-2xl bg-warmwhite border border-champagne p-4 shadow-card hover:shadow-card-hover transition-all flex flex-col">
+          <div class="relative h-96 w-full rounded-xl overflow-hidden bg-navy-deep border-4 border-[#3e251a] shadow-inner perspective-container">
+            
+            <!-- Interior Peek Reveal Backing -->
+            <div class="absolute inset-0 bg-gradient-to-b from-[#101923] to-[#070e17] p-6 flex flex-col justify-center items-center text-center text-champagne">
+              <i class="fa-solid fa-monument text-4xl text-gold/80 mb-3 animate-pulse"></i>
+              <span class="text-xs uppercase tracking-widest text-gold font-semibold">Chamber Revealed</span>
+              <p class="text-sm font-serif mt-2 text-warmwhite">The IAS Princeton Study</p>
+              <span class="mt-4 text-[11px] underline text-champagne/70">Entering Archives...</span>
+            </div>
+
+            <!-- The 3D Wooden Door Leaf -->
+            <div id="door-2" 
+                 class="door-panel absolute inset-0 z-20 flex flex-col justify-between p-5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
+                 tabindex="0"
+                 role="button"
+                 aria-label="Knock to enter Chamber 2: The IAS Princeton Study"
+                 onclick="handleDoorKnock(2)"
+                 onkeydown="if(event.key==='Enter'||event.key===' ') handleDoorKnock(2)">
+              
+              <!-- Top Wood Inset -->
+              <div class="wood-inset h-24 rounded-lg flex items-center justify-center p-2 text-center">
+                <span class="text-[11px] tracking-widest uppercase font-serif text-gold/80">Chamber II &bull; 1950–1983</span>
+              </div>
+
+              <!-- Door Centerpiece: Brass Knocker & Plaque -->
+              <div class="flex flex-col items-center justify-center my-auto">
+                <div class="brass-plate px-4 py-1.5 rounded-sm shadow-md text-center mb-6 border border-[#ffe07a]">
+                  <span class="font-serif font-bold text-xs tracking-wider block">THE ARCHITECTURE OF LIE GROUPS</span>
+                  <span class="text-[9px] uppercase tracking-widest block font-sans">Princeton & IAS</span>
+                </div>
+
+                <div id="knocker-2" class="relative flex flex-col items-center group-hover:scale-105 transition-transform">
+                  <div class="w-6 h-6 rounded-full bg-gradient-to-b from-gold-bright to-gold border-2 border-[#54400a] shadow-md"></div>
+                  <div class="w-12 h-14 border-4 border-gold-bright rounded-b-full -mt-2.5 shadow-lg bg-transparent flex items-end justify-center pb-1">
+                    <div class="w-3 h-3 rounded-full bg-gold border border-navy"></div>
+                  </div>
+                  <div class="w-4 h-4 rounded-full bg-[#1b120c] border border-gold mt-1"></div>
+                </div>
+                <span class="text-[10px] tracking-wider uppercase text-gold/90 font-medium mt-3 bg-black/40 px-2 py-0.5 rounded">
+                  <i class="fa-regular fa-hand-point-up mr-1"></i> Tap to Knock
+                </span>
+              </div>
+
+              <!-- Bottom Wood Inset -->
+              <div class="wood-inset h-20 rounded-lg flex items-center justify-center">
+                <span class="text-[10px] tracking-widest uppercase text-champagne/40">Harmonic Analysis</span>
+              </div>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="tribute-category">Category <span class="required">*</span></label>
-            <select id="tribute-category" required>
-              <option value="student">Student</option>
-              <option value="faculty">Faculty</option>
-              <option value="global-scholar">Global Scholar</option>
-              <option value="reflection">Personal Reflection</option>
-            </select>
+          <!-- Door Details Footer -->
+          <div class="mt-4 text-center">
+            <h3 class="font-serif font-bold text-lg text-navy">The IAS Princeton Study</h3>
+            <p class="text-xs text-slateCustom mt-1">Discrete series, characters of representations, and the monumental edifice of semisimple groups.</p>
+            <button onclick="handleDoorKnock(2)" class="mt-3 text-xs font-semibold text-royal hover:text-gold transition uppercase tracking-wider inline-flex items-center gap-1">
+              <span>Step Inside Chamber</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="tribute-message">Your Inscription <span class="required">*</span></label>
-          <textarea id="tribute-message" rows="4" placeholder="Share how his work or devotion to pure mathematics inspired you..." required minlength="15" maxlength="600"></textarea>
-          <div class="textarea-footer">
-            <span class="field-error" id="message-error">Tribute must be at least 15 characters long.</span>
-            <span class="char-count" id="char-counter">0 / 600</span>
+        <!-- Chamber 3 Card & Door -->
+        <div class="group relative rounded-2xl bg-warmwhite border border-champagne p-4 shadow-card hover:shadow-card-hover transition-all flex flex-col">
+          <div class="relative h-96 w-full rounded-xl overflow-hidden bg-navy-deep border-4 border-[#3e251a] shadow-inner perspective-container">
+            
+            <!-- Interior Peek Reveal Backing -->
+            <div class="absolute inset-0 bg-gradient-to-b from-[#211612] to-[#120a06] p-6 flex flex-col justify-center items-center text-center text-champagne">
+              <i class="fa-solid fa-palette text-4xl text-gold/80 mb-3 animate-pulse"></i>
+              <span class="text-xs uppercase tracking-widest text-gold font-semibold">Chamber Revealed</span>
+              <p class="text-sm font-serif mt-2 text-warmwhite">The Painter & Philosopher</p>
+              <span class="mt-4 text-[11px] underline text-champagne/70">Entering Archives...</span>
+            </div>
+
+            <!-- The 3D Wooden Door Leaf -->
+            <div id="door-3" 
+                 class="door-panel absolute inset-0 z-20 flex flex-col justify-between p-5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
+                 tabindex="0"
+                 role="button"
+                 aria-label="Knock to enter Chamber 3: The Painter and Philosopher"
+                 onclick="handleDoorKnock(3)"
+                 onkeydown="if(event.key==='Enter'||event.key===' ') handleDoorKnock(3)">
+              
+              <!-- Top Wood Inset -->
+              <div class="wood-inset h-24 rounded-lg flex items-center justify-center p-2 text-center">
+                <span class="text-[11px] tracking-widest uppercase font-serif text-gold/80">Chamber III &bull; Mind & Art</span>
+              </div>
+
+              <!-- Door Centerpiece: Brass Knocker & Plaque -->
+              <div class="flex flex-col items-center justify-center my-auto">
+                <div class="brass-plate px-4 py-1.5 rounded-sm shadow-md text-center mb-6 border border-[#ffe07a]">
+                  <span class="font-serif font-bold text-xs tracking-wider block">CANVAS, VIOLIN & SOUL</span>
+                  <span class="text-[9px] uppercase tracking-widest block font-sans">Artistic Sensibility</span>
+                </div>
+
+                <div id="knocker-3" class="relative flex flex-col items-center group-hover:scale-105 transition-transform">
+                  <div class="w-6 h-6 rounded-full bg-gradient-to-b from-gold-bright to-gold border-2 border-[#54400a] shadow-md"></div>
+                  <div class="w-12 h-14 border-4 border-gold-bright rounded-b-full -mt-2.5 shadow-lg bg-transparent flex items-end justify-center pb-1">
+                    <div class="w-3 h-3 rounded-full bg-gold border border-navy"></div>
+                  </div>
+                  <div class="w-4 h-4 rounded-full bg-[#1b120c] border border-gold mt-1"></div>
+                </div>
+                <span class="text-[10px] tracking-wider uppercase text-gold/90 font-medium mt-3 bg-black/40 px-2 py-0.5 rounded">
+                  <i class="fa-regular fa-hand-point-up mr-1"></i> Tap to Knock
+                </span>
+              </div>
+
+              <!-- Bottom Wood Inset -->
+              <div class="wood-inset h-20 rounded-lg flex items-center justify-center">
+                <span class="text-[10px] tracking-widest uppercase text-champagne/40">Intuition & Solitude</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Door Details Footer -->
+          <div class="mt-4 text-center">
+            <h3 class="font-serif font-bold text-lg text-navy">The Painter & Philosopher</h3>
+            <p class="text-xs text-slateCustom mt-1">His vibrant watercolor paintings, violin practice, letters to Lily, and aesthetic philosophy.</p>
+            <button onclick="handleDoorKnock(3)" class="mt-3 text-xs font-semibold text-royal hover:text-gold transition uppercase tracking-wider inline-flex items-center gap-1">
+              <span>Step Inside Chamber</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
           </div>
         </div>
 
-        <div class="diya-toggle-wrap">
-          <label class="custom-switch">
-            <input type="checkbox" id="diya-toggle" checked>
-            <span class="slider"></span>
-          </label>
-          <div class="diya-text">
-            <strong>Light a Golden Diya (अखंड दीप)</strong>
-            <span>Include an eternal flame homage on your tribute card</span>
-          </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tributes" class="py-20 bg-warmwhite/60 text-charcoal relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Title & Description -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-gold block mb-1">Global Memory Sanctum</span>
+          <h2 class="text-3xl sm:text-4xl font-serif font-bold text-navy">Community Tribute Wall</h2>
+          <p class="text-slateCustom text-sm sm:text-base mt-2 max-w-xl">
+            Tributes offered by mathematicians, former students, Allahabad & IAS scholars, and international researchers celebrating Harish-Chandra's centenary.
+          </p>
         </div>
 
-        <button type="submit" class="submit-btn" id="submit-tribute-btn">
-          <i class="fa-solid fa-paper-plane"></i> Inscribe into Legacy Wall
+        <!-- Filter Chips Bar -->
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-xs font-medium text-slateCustom mr-1 hidden sm:inline">Filter:</span>
+          <button onclick="filterTributes('all')" data-filter="all" class="filter-chip px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition bg-navy text-gold shadow-sm">
+            All (Total <span id="totalTributesCount">0</span>)
+          </button>
+          <button onclick="filterTributes('Student')" data-filter="Student" class="filter-chip px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition bg-champagne-light hover:bg-champagne text-navy">
+            Student
+          </button>
+          <button onclick="filterTributes('Faculty')" data-filter="Faculty" class="filter-chip px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition bg-champagne-light hover:bg-champagne text-navy">
+            Faculty
+          </button>
+          <button onclick="filterTributes('Global Scholar')" data-filter="Global Scholar" class="filter-chip px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition bg-champagne-light hover:bg-champagne text-navy">
+            Global Scholar
+          </button>
+          <button onclick="filterTributes('Personal Reflection')" data-filter="Personal Reflection" class="filter-chip px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition bg-champagne-light hover:bg-champagne text-navy">
+            Personal Reflection
+          </button>
+        </div>
+      </div>
+
+      <!-- Tributes Grid Container -->
+      <div id="tributesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-start">
+        <!-- Dynamically injected via JavaScript -->
+      </div>
+
+      <!-- Empty State for Filters -->
+      <div id="emptyFilterState" class="hidden text-center py-16">
+        <i class="fa-regular fa-folder-open text-4xl text-slateCustom/40 mb-3 block"></i>
+        <p class="text-slateCustom font-serif italic text-lg">No tributes found under this category.</p>
+        <button onclick="filterTributes('all')" class="mt-3 text-xs text-gold font-bold underline uppercase tracking-widest">Show All Tributes</button>
+      </div>
+
+    </div>
+  </section>
+
+  <aside class="fixed bottom-6 right-6 z-30">
+    <button onclick="openTributeModal()" 
+            class="flex items-center gap-3 px-5 py-3.5 rounded-full bg-gold hover:bg-gold-bright text-navy font-bold text-sm tracking-wide shadow-xl hover:shadow-gold-glow transition transform hover:-translate-y-1 active:scale-95 group border-2 border-warmwhite">
+      <!-- Diya flame icon in button -->
+      <span class="relative flex items-center justify-center w-6 h-6 rounded-full bg-navy text-gold">
+        <i class="fa-solid fa-fire-flame-curved text-xs flame-particle"></i>
+      </span>
+      <span>Offer Tribute</span>
+      <span class="hidden sm:inline text-xs font-medium bg-navy/10 px-2 py-0.5 rounded-full uppercase">Honor Legacy</span>
+    </button>
+  </aside>
+
+  <!-- Chamber Modal Backing Overlay -->
+  <div id="chamberModal" 
+       class="fixed inset-0 z-50 bg-navy-deep/85 backdrop-blur-md hidden flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+       role="dialog" 
+       aria-modal="true" 
+       aria-labelledby="chamberModalTitle">
+    
+    <div class="relative w-full max-w-3xl bg-warmwhite rounded-2xl shadow-2xl border-2 border-gold/40 overflow-hidden my-8 transform transition-all">
+      
+      <!-- Modal Top Banner -->
+      <div id="chamberHeaderBg" class="p-6 sm:p-8 bg-gradient-to-r from-navy via-navy-light to-royal text-warmwhite relative">
+        <button onclick="closeChamberModal()" 
+                class="absolute top-5 right-5 text-champagne/80 hover:text-warmwhite w-9 h-9 rounded-full bg-navy-deep/50 hover:bg-navy-deep flex items-center justify-center transition border border-gold/30"
+                aria-label="Close exhibition modal">
+          <i class="fa-solid fa-xmark text-lg"></i>
         </button>
-      </form>
+
+        <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-champagne mb-2">
+          <i class="fa-solid fa-landmark text-gold"></i>
+          <span id="chamberSubheader">Exhibition Chamber</span>
+        </div>
+        <h3 id="chamberModalTitle" class="text-2xl sm:text-3xl font-serif font-bold text-warmwhite">
+          Chamber Title
+        </h3>
+        <p id="chamberEra" class="text-xs text-gold font-sans tracking-wide mt-1">1923 – 1983</p>
+      </div>
+
+      <!-- Modal Body Archival Content -->
+      <div class="p-6 sm:p-8 space-y-6 max-h-[68vh] overflow-y-auto">
+        
+        <!-- Primary Curated Excerpt Quote -->
+        <div class="p-5 rounded-xl bg-ivory border-l-4 border-gold shadow-sm">
+          <p id="chamberQuote" class="font-quote italic text-xl text-charcoal leading-snug">
+            "Archival quotation appears here."
+          </p>
+          <span id="chamberQuoteSource" class="block text-xs uppercase tracking-widest text-royal mt-2 font-semibold">
+            Source Attribution
+          </span>
+        </div>
+
+        <!-- Archival Narrative -->
+        <div>
+          <h4 class="font-serif font-bold text-lg text-navy mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-book-open text-gold text-sm"></i> Curated Historical Narrative
+          </h4>
+          <p id="chamberNarrative" class="text-slateCustom text-sm sm:text-base leading-relaxed">
+            Historical narrative detailing Harish-Chandra's work, challenges, and mathematical journey.
+          </p>
+        </div>
+
+        <!-- Key Milestones or Key Artifacts Checklist -->
+        <div class="bg-champagne/15 rounded-xl p-5 border border-champagne/40">
+          <h4 class="font-serif font-bold text-sm text-navy mb-3 uppercase tracking-wider">
+            Chronological & Conceptual Artifacts
+          </h4>
+          <ul id="chamberArtifacts" class="space-y-2 text-xs sm:text-sm text-charcoal">
+            <!-- Dynamic bullets -->
+          </ul>
+        </div>
+
+        <!-- Audio Transcript & Synthesis Note -->
+        <div class="text-[11px] text-slateCustom/80 border-t border-champagne/40 pt-4 flex items-center justify-between">
+          <span><i class="fa-solid fa-wave-square text-gold mr-1"></i> Interactive Memory Sanctum • Synthesized Acoustic Chamber</span>
+          <span class="text-royal font-medium">Harish-Chandra Digital Archive</span>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="bg-ivory px-6 py-4 border-t border-champagne/50 flex justify-end">
+        <button onclick="closeChamberModal()" class="px-5 py-2 rounded-lg bg-navy hover:bg-navy-light text-champagne text-xs font-semibold tracking-wider uppercase transition">
+          Return to Hall
+        </button>
+      </div>
+
     </div>
   </div>
 
-  <!-- Notification Toast Container -->
-  <div id="toast-container" class="toast-container"></div>
+  <div id="tributeModal" 
+       class="fixed inset-0 z-50 bg-navy-deep/80 backdrop-blur-sm hidden flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+       role="dialog" 
+       aria-modal="true" 
+       aria-labelledby="tributeModalTitle">
+    
+    <div class="relative w-full max-w-xl bg-warmwhite rounded-2xl shadow-2xl border-2 border-gold/50 overflow-hidden my-6">
+      
+      <!-- Form Header -->
+      <div class="bg-navy p-6 text-warmwhite border-b border-gold/30 relative">
+        <button onclick="closeTributeModal()" 
+                class="absolute top-5 right-5 text-champagne/80 hover:text-warmwhite w-8 h-8 rounded-full bg-navy-light flex items-center justify-center transition border border-gold/20"
+                aria-label="Close tribute modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <span class="text-[11px] uppercase tracking-widest text-champagne font-semibold block">Public Ledger of Homage</span>
+        <h3 id="tributeModalTitle" class="text-2xl font-serif font-bold text-warmwhite mt-0.5">Offer a Tribute</h3>
+        <p class="text-xs text-champagne/80 mt-1 font-light">
+          Your words will be inscribed onto the communal legacy wall in perpetuity.
+        </p>
+      </div>
+
+      <!-- Form Body -->
+      <form id="tributeForm" onsubmit="handleTributeSubmit(event)" class="p-6 sm:p-8 space-y-4">
+        
+        <div>
+          <label for="authorName" class="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-1">
+            Full Name <span class="text-gold">*</span>
+          </label>
+          <input type="text" id="authorName" required maxlength="60" placeholder="e.g. Dr. Anandita Sen"
+                 class="w-full px-3.5 py-2.5 rounded-xl border border-champagne focus:border-gold focus:ring-1 focus:ring-gold bg-ivory text-sm outline-none transition">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="authorRole" class="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-1">
+              Role / Designation <span class="text-gold">*</span>
+            </label>
+            <input type="text" id="authorRole" required maxlength="50" placeholder="e.g. Research Scholar"
+                   class="w-full px-3.5 py-2.5 rounded-xl border border-champagne focus:border-gold focus:ring-1 focus:ring-gold bg-ivory text-sm outline-none transition">
+          </div>
+          <div>
+            <label for="authorAffiliation" class="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-1">
+              Institution / Affiliation <span class="text-gold">*</span>
+            </label>
+            <input type="text" id="authorAffiliation" required maxlength="60" placeholder="e.g. Allahabad University / IAS"
+                   class="w-full px-3.5 py-2.5 rounded-xl border border-champagne focus:border-gold focus:ring-1 focus:ring-gold bg-ivory text-sm outline-none transition">
+          </div>
+        </div>
+
+        <div>
+          <label for="tributeCategory" class="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-1">
+            Category <span class="text-gold">*</span>
+          </label>
+          <select id="tributeCategory" required
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-champagne focus:border-gold focus:ring-1 focus:ring-gold bg-ivory text-sm outline-none transition">
+            <option value="Student">Student</option>
+            <option value="Faculty">Faculty</option>
+            <option value="Global Scholar">Global Scholar</option>
+            <option value="Personal Reflection">Personal Reflection</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="tributeMessage" class="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-1">
+            Homage Message / Reflection <span class="text-gold">*</span>
+          </label>
+          <textarea id="tributeMessage" required rows="4" maxlength="400" placeholder="Express your reverence for his life, theorems, rigorous dedication, or inspiration..."
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-champagne focus:border-gold focus:ring-1 focus:ring-gold bg-ivory text-sm outline-none transition"></textarea>
+          <span class="text-[10px] text-slateCustom text-right block mt-0.5">Maximum 400 characters</span>
+        </div>
+
+        <!-- Diya / Eternal Flame Toggle -->
+        <div class="p-4 rounded-xl bg-champagne-light/50 border border-gold/40 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-gold/20 flex items-center justify-center text-gold">
+              <i class="fa-solid fa-fire text-base"></i>
+            </div>
+            <div>
+              <span class="text-xs font-bold text-navy block">Light a Virtual Diya (Golden Candle)</span>
+              <span class="text-[11px] text-slateCustom">Bestows a glowing eternal flame on your tribute card</span>
+            </div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="diyaToggle" class="sr-only peer" checked>
+            <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gold"></div>
+          </label>
+        </div>
+
+        <!-- Actions -->
+        <div class="pt-3 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeTributeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold uppercase text-slateCustom hover:text-navy transition">
+            Cancel
+          </button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl bg-gold hover:bg-gold-bright text-navy font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-gold-glow transition flex items-center gap-2">
+            <i class="fa-solid fa-feather"></i> Inscribe Tribute
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toastNotification" class="fixed top-24 right-6 z-50 transform translate-y-[-100px] opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-navy border-2 border-gold text-warmwhite px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3">
+      <i class="fa-solid fa-circle-check text-gold text-lg"></i>
+      <div>
+        <p id="toastMessage" class="text-xs font-semibold">Tribute successfully inscribed.</p>
+        <p class="text-[10px] text-champagne">Stored in your browser's memorial register.</p>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-logo">Harish-Chandra Digital Sanctum</div>
-      <p class="footer-desc">Commemorating the legacy of Professor Harish-Chandra, FRS (1923–1983).</p>
-      <div class="footer-creds">Track 09 Memorial Challenge • 2026</div>
+  <footer class="bg-navy-deep border-t border-gold/30 text-champagne/80 py-12 text-sm mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-center md:text-left">
+      <div>
+        <div class="flex items-center justify-center md:justify-start space-x-2">
+          <i class="fa-solid fa-infinity text-gold"></i>
+          <span class="font-serif font-bold text-warmwhite text-base">Harish-Chandra Research Sanctuary</span>
+        </div>
+        <p class="text-xs text-slate-400 mt-2 max-w-sm">
+          Track 09: Digital Tribute Wall & Memory Chambers. Celebrating the Centenary and immortal legacy of Harish-Chandra (1923–1983).
+        </p>
+      </div>
+
+      <div class="text-center">
+        <p class="font-quote italic text-base text-champagne">
+          "The pursuit of truth in representation theory has the inexorable geometry of eternity."
+        </p>
+        <span class="text-[10px] text-slate-400 uppercase tracking-widest mt-1 block">Allahabad &bull; Cambridge &bull; Princeton</span>
+      </div>
+
+      <div class="text-center md:text-right text-xs space-y-1">
+        <p class="text-slate-300">Harish-Chandra Digital Legacy Challenge 2026</p>
+        <p class="text-gold font-medium">Built with Web Audio API & Vanilla ES6</p>
+        <p class="text-[11px] text-slate-500">&copy; 2026 Mathematical Legacy Preservation Initiative.</p>
+      </div>
     </div>
   </footer>
 
-  <!-- Application Script -->
-  <script src="app.js"></script>
+  <script>
+    /**
+     * HARISH-CHANDRA DIGITAL SANCTUM - CORE LOGIC
+     * 1. Web Audio API Procedural Sound Synthesis (Wood Knock, Chimes, Brass Clack)
+     * 2. 3D Door Swing & Exhibition Chamber Data
+     * 3. LocalStorage persistence for Tributes & Pranam (Homage flower) counts
+     * 4. Accessibility & keyboard controls
+     */
+
+    // --- SOUND ENGINE (Web Audio API Procedural Synthesis) ---
+    class SoundSynthesisEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+
+      initContext() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      toggleSound() {
+        this.enabled = !this.enabled;
+        return this.enabled;
+      }
+
+      // Procedural synthesis of a realistic double wood door knock
+      playDoorKnock() {
+        if (!this.enabled) return;
+        this.initContext();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime;
+        
+        // Knock 1 followed quickly by Knock 2 (Double knock pattern)
+        this.generateSingleThud(now);
+        this.generateSingleThud(now + 0.16);
+      }
+
+      generateSingleThud(startTime) {
+        // 1. Resonant low frequency body (Thud)
+        const osc = this.ctx.createOscillator();
+        const oscGain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(110, startTime);
+        osc.frequency.exponentialRampToValueAtTime(38, startTime + 0.08);
+
+        oscGain.gain.setValueAtTime(0.85, startTime);
+        oscGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.09);
+
+        osc.connect(oscGain);
+        oscGain.connect(this.ctx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + 0.1);
+
+        // 2. High impact filtered noise burst (Wood knuckle friction)
+        const bufferSize = this.ctx.sampleRate * 0.04;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * 0.9;
+        }
+
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(800, startTime);
+        filter.frequency.exponentialRampToValueAtTime(200, startTime + 0.04);
+
+        const noiseGain = this.ctx.createGain();
+        noiseGain.gain.setValueAtTime(0.7, startTime);
+        noiseGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.04);
+
+        noise.connect(filter);
+        filter.connect(noiseGain);
+        noiseGain.connect(this.ctx.destination);
+
+        noise.start(startTime);
+      }
+
+      // Procedural soft brass bell chime for reveals
+      playChamberRevealChime() {
+        if (!this.enabled) return;
+        this.initContext();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime;
+        const freqs = [523.25, 659.25, 783.99, 1046.50]; // C Major Sanctum chord
+
+        freqs.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.04);
+
+          gain.gain.setValueAtTime(0.12 / (idx + 1), now + idx * 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2 + idx * 0.1);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start(now + idx * 0.04);
+          osc.stop(now + 1.4);
+        });
+      }
+
+      // Procedural soft click / flame illumination tone
+      playFlowerOfferTone() {
+        if (!this.enabled) return;
+        this.initContext();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, now);
+        osc.frequency.exponentialRampToValueAtTime(1320, now + 0.08);
+
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.13);
+      }
+    }
+
+    const audioFX = new SoundSynthesisEngine();
+
+    // --- CHAMBER DATA DICTIONARY ---
+    const chambersData = {
+      1: {
+        title: "Kanpur & Cambridge Days",
+        subheader: "Chamber I: Foundations & Transition",
+        era: "1923 – 1947",
+        headerColor: "from-[#2b1810] via-[#3d2012] to-royal",
+        quote: "“In Dirac I saw a mind of astonishing purity and simplicity. But in mathematics, I discovered an uncompromising rigor where I could build without approximations.”",
+        source: "Personal correspondence to his family in Kanpur (1946)",
+        narrative: "Born in Kanpur, Harish-Chandra graduated with an M.Sc. in Physics from Allahabad University, where his brilliant mathematical acumen was nurtured by Prof. K.S. Krishnan. Recommended to the Indian Institute of Science by Dr. Homi J. Bhabha, he was soon recommended to Cambridge University to study theoretical physics under Nobel Laureate Paul Dirac. During this period, while analyzing irreducible representations of the Lorentz group, Harish-Chandra experienced a transformative realization: his true calling was pure mathematics.",
+        artifacts: [
+          "1943: M.Sc. thesis under K.S. Krishnan at Allahabad University.",
+          "1945: Arrival at Gonville and Caius College, Cambridge under Paul Dirac.",
+          "1947: Cambridge Ph.D. Dissertation on 'Infinite Irreducible Representations of the Lorentz Group'.",
+          "Decisive shift from theoretical physics to the rigorous foundational world of representation theory."
+        ]
+      },
+      2: {
+        title: "The IAS Princeton Study",
+        subheader: "Chamber II: The Monumental Cathedral",
+        era: "1950 – 1983",
+        headerColor: "from-navy-deep via-navy to-royal",
+        quote: "“The characters of representations are not mere abstract numbers; they are distributions holding the deep algebraic symphony of semisimple Lie groups.”",
+        source: "Lectures at the Institute for Advanced Study, Princeton",
+        narrative: "At Columbia University and subsequently as IBM von Neumann Professor at the Institute for Advanced Study in Princeton, Harish-Chandra constructed the harmonic analysis of semisimple Lie groups. With legendary persistence, he developed the concept of the Harish-Chandra homomorphism, characters as eigendistributions, discrete series representations, and the Plancherel formula for reductive groups. His work later formed the analytical foundation upon which the monumental Langlands Program was established.",
+        artifacts: [
+          "1954: Awarded the prestigious Cole Prize of the American Mathematical Society.",
+          "1963: Appointed Permanent Professor at the Institute for Advanced Study (IAS), Princeton.",
+          "1973: Fellow of the Royal Society (FRS), London.",
+          "Formulation of the Plancherel Theorem and discrete series representations of real reductive groups."
+        ]
+      },
+      3: {
+        title: "The Painter & Philosopher",
+        subheader: "Chamber III: The Artistic Spirit",
+        era: "Personal Life & Reflections",
+        headerColor: "from-[#211612] via-[#382012] to-navy",
+        quote: "“Painting gives me something mathematics alone cannot: the direct sensation of color and tactile silence. Yet both spring from an identical reverence for harmony.”",
+        source: "Memoir notes collected by Lily Harish-Chandra",
+        narrative: "Beyond the austere beauty of abstract algebra, Harish-Chandra was a gifted painter and passionate violinist. He frequently immersed himself in landscape watercolors, portraits, and Indian classical ragas. He was married to Lily (Lalitha Kale), with whom he shared a life filled with literature, gardening, and music. Colleagues remembered his profound modesty, philosophical introspection, and uncompromising moral character.",
+        artifacts: [
+          "Private collection of landscape watercolors reflecting quiet American and Indian countrysides.",
+          "Lifelong practice of the violin and deep affinity for classical acoustic melodies.",
+          "Devoted philosophical correspondence examining Indian philosophy, intuition, and epistemology.",
+          "Reflections on artistic grace as the guiding compass for choosing mathematical problems."
+        ]
+      }
+    };
+
+    // --- STARTER TRIBUTES DATA ---
+    const initialTributes = [
+      {
+        id: 'trib_1',
+        name: "Prof. Armand Borel",
+        role: "Emeritus Professor",
+        affiliation: "Institute for Advanced Study, Princeton",
+        category: "Global Scholar",
+        message: "His power of concentration was legendary. Working through hundreds of pages of intricate harmonic analysis, he built a monument that will stand as long as mathematics exists.",
+        date: "Oct 1984 / Centenary Archive",
+        pranamCount: 42,
+        hasDiya: true
+      },
+      {
+        id: 'trib_2',
+        name: "Dr. Vikramaditya Trivedi",
+        role: "Faculty in Representation Theory",
+        affiliation: "Allahabad University",
+        category: "Faculty",
+        message: "Walking the corridors of Allahabad University where Harish-Chandra once contemplated Ramanujan and Dirac fills one with immense pride. He showed how Indian intellect reaches the stars.",
+        date: "October 2026",
+        pranamCount: 31,
+        hasDiya: true
+      },
+      {
+        id: 'trib_3',
+        name: "Sunita Roy-Chatterjee",
+        role: "Doctoral Student",
+        affiliation: "Harish-Chandra Research Institute (HRI), Prayagraj",
+        category: "Student",
+        message: "Studying the Plancherel formula in the institute named in his honor is a sacred privilege. His devotion to perfection teaches us to never settle for half-baked theorems.",
+        date: "October 2026",
+        pranamCount: 27,
+        hasDiya: true
+      },
+      {
+        id: 'trib_4',
+        name: "Prof. Robert Langlands",
+        role: "Professor Emeritus",
+        affiliation: "Institute for Advanced Study",
+        category: "Global Scholar",
+        message: "Harish-Chandra's characters and differential equations on Lie groups provided the very vocabulary through which modern automorphic forms and functoriality could take flight.",
+        date: "Centenary Tribute",
+        pranamCount: 56,
+        hasDiya: true
+      },
+      {
+        id: 'trib_5',
+        name: "Meera Deshmukh",
+        role: "Science Historian & Biographer",
+        affiliation: "Bengaluru",
+        category: "Personal Reflection",
+        message: "His love for watercolor painting and violin shows the holistic nature of genius. He was a rishi of modern science who found divine harmony in pure abstraction.",
+        date: "October 2026",
+        pranamCount: 19,
+        hasDiya: false
+      },
+      {
+        id: 'trib_6',
+        name: "Karan Johal",
+        role: "Graduate Scholar",
+        affiliation: "Tata Institute of Fundamental Research (TIFR)",
+        category: "Student",
+        message: "Every time I open his collected papers, I am humbled by the sheer structural density. Thank you, Harish-Chandra ji, for inspiring generations of Indian mathematicians.",
+        date: "October 2026",
+        pranamCount: 14,
+        hasDiya: true
+      }
+    ];
+
+    // --- APPLICATION STATE ---
+    let appTributes = [];
+    let currentFilter = 'all';
+
+    // --- INITIALIZATION ---
+    window.addEventListener('DOMContentLoaded', () => {
+      initAudioToggleUI();
+      initTributesStore();
+      renderTributes();
+      setupModalKeyboardHandlers();
+    });
+
+    // Audio button toggle handler
+    function initAudioToggleUI() {
+      const btn = document.getElementById('soundToggleBtn');
+      const soundDot = document.getElementById('soundDot');
+      const soundPulse = document.getElementById('soundPulse');
+      const soundIcon = document.getElementById('soundIcon');
+      const soundText = document.getElementById('soundStatusText');
+
+      btn.addEventListener('click', () => {
+        const isEnabled = audioFX.toggleSound();
+        if (isEnabled) {
+          audioFX.playDoorKnock();
+          soundDot.className = 'relative inline-flex rounded-full h-2 w-2 bg-gold';
+          soundPulse.className = 'animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75';
+          soundIcon.className = 'fa-solid fa-volume-high text-gold';
+          soundText.textContent = 'Audio: On';
+        } else {
+          soundDot.className = 'relative inline-flex rounded-full h-2 w-2 bg-slate-400';
+          soundPulse.className = 'hidden';
+          soundIcon.className = 'fa-solid fa-volume-xmark text-slate-400';
+          soundText.textContent = 'Audio: Muted';
+        }
+      });
+    }
+
+    // --- DOOR KNOCK & EXHIBITION ROOM FLOW ---
+    function handleDoorKnock(chamberId) {
+      const doorEl = document.getElementById(`door-${chamberId}`);
+      const knockerEl = document.getElementById(`knocker-${chamberId}`);
+      
+      // Trigger knocker mechanical bounce animation
+      if (knockerEl) {
+        knockerEl.classList.remove('knocker-knocking');
+        void knockerEl.offsetWidth; // Reflow
+        knockerEl.classList.add('knocker-knocking');
+      }
+
+      // Synthesize realistic acoustic double-knock
+      audioFX.playDoorKnock();
+
+      // Swing the 3D wooden door after the second knock thud
+      setTimeout(() => {
+        if (doorEl) {
+          doorEl.classList.add('open-swing');
+        }
+        
+        // Play reveal resonance chime
+        audioFX.playChamberRevealChime();
+
+        // Reveal Chamber Modal with rich historical writeup
+        setTimeout(() => {
+          openChamberModal(chamberId);
+        }, 650);
+      }, 350);
+    }
+
+    function openChamberModal(chamberId) {
+      const data = chambersData[chamberId];
+      if (!data) return;
+
+      document.getElementById('chamberSubheader').textContent = data.subheader;
+      document.getElementById('chamberModalTitle').textContent = data.title;
+      document.getElementById('chamberEra').textContent = data.era;
+      document.getElementById('chamberQuote').textContent = data.quote;
+      document.getElementById('chamberQuoteSource').textContent = `— ${data.source}`;
+      document.getElementById('chamberNarrative').textContent = data.narrative;
+
+      // Populate artifacts list
+      const artifactsList = document.getElementById('chamberArtifacts');
+      artifactsList.innerHTML = '';
+      data.artifacts.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'flex items-start gap-2.5';
+        li.innerHTML = `<i class="fa-solid fa-gem text-gold text-xs mt-1"></i> <span>${item}</span>`;
+        artifactsList.appendChild(li);
+      });
+
+      const modal = document.getElementById('chamberModal');
+      modal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+
+      // Focus close button for accessibility
+      const closeBtn = modal.querySelector('button');
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeChamberModal() {
+      const modal = document.getElementById('chamberModal');
+      modal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+
+      // Reset any open door leaves smoothly
+      for (let i = 1; i <= 3; i++) {
+        const doorEl = document.getElementById(`door-${i}`);
+        if (doorEl) {
+          doorEl.classList.remove('open-swing');
+        }
+      }
+    }
+
+    // --- TRIBUTES & LOCALSTORAGE ENGINE ---
+    function initTributesStore() {
+      try {
+        const local = localStorage.getItem('harish_chandra_tributes_2026');
+        if (local) {
+          appTributes = JSON.parse(local);
+        } else {
+          appTributes = [...initialTributes];
+          localStorage.setItem('harish_chandra_tributes_2026', JSON.stringify(appTributes));
+        }
+      } catch (e) {
+        console.warn('LocalStorage unavailable, running in-memory mode', e);
+        appTributes = [...initialTributes];
+      }
+    }
+
+    function saveTributesStore() {
+      try {
+        localStorage.setItem('harish_chandra_tributes_2026', JSON.stringify(appTributes));
+      } catch (e) {
+        console.warn('Failed to persist tributes', e);
+      }
+    }
+
+    function filterTributes(category) {
+      currentFilter = category;
+      
+      // Update filter chip UI active styles
+      document.querySelectorAll('.filter-chip').forEach(btn => {
+        const filterVal = btn.getAttribute('data-filter');
+        if (filterVal === category) {
+          btn.className = 'filter-chip px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition bg-navy text-gold shadow-sm';
+        } else {
+          btn.className = 'filter-chip px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition bg-champagne-light hover:bg-champagne text-navy';
+        }
+      });
+
+      renderTributes();
+    }
+
+    function renderTributes() {
+      const grid = document.getElementById('tributesGrid');
+      const emptyState = document.getElementById('emptyFilterState');
+      const totalCountSpan = document.getElementById('totalTributesCount');
+      
+      totalCountSpan.textContent = appTributes.length;
+
+      const filtered = currentFilter === 'all' 
+        ? appTributes 
+        : appTributes.filter(t => t.category === currentFilter);
+
+      grid.innerHTML = '';
+
+      if (filtered.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      } else {
+        emptyState.classList.add('hidden');
+      }
+
+      filtered.forEach((tribute) => {
+        const card = document.createElement('div');
+        card.id = `card-${tribute.id}`;
+        card.className = "rounded-2xl p-6 bg-warmwhite border border-champagne shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between relative";
+
+        // Diya Flame Widget
+        const diyaHtml = tribute.hasDiya ? `
+          <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-semibold">
+            <span class="w-3.5 h-3.5 flex items-center justify-center">
+              <i class="fa-solid fa-fire text-gold flame-particle text-xs"></i>
+            </span>
+            <span class="text-[10px] tracking-wider uppercase font-sans">Eternal Diya Lit</span>
+          </div>
+        ` : `
+          <span class="text-[11px] text-slateCustom/60 italic font-quote">Homage Inscribed</span>
+        `;
+
+        card.innerHTML = `
+          <!-- Header with category badge & Diya Flame -->
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase bg-royal/10 text-royal border border-royal/20">
+                ${escapeHTML(tribute.category)}
+              </span>
+              ${diyaHtml}
+            </div>
+
+            <!-- Tribute Body -->
+            <div class="relative">
+              <i class="fa-solid fa-quote-left text-champagne text-2xl absolute -top-3 -left-1 opacity-60"></i>
+              <p class="font-quote text-lg text-charcoal italic leading-relaxed pl-5 relative z-10">
+                "${escapeHTML(tribute.message)}"
+              </p>
+            </div>
+          </div>
+
+          <!-- Author Info & Interaction Footer -->
+          <div class="mt-6 pt-4 border-t border-champagne/60 flex items-end justify-between">
+            <div>
+              <h4 class="font-serif font-bold text-sm text-navy leading-tight">${escapeHTML(tribute.name)}</h4>
+              <p class="text-xs text-slateCustom mt-0.5">${escapeHTML(tribute.role)}</p>
+              <p class="text-[11px] text-gold-muted font-medium">${escapeHTML(tribute.affiliation)}</p>
+              <span class="text-[10px] text-slateCustom/60 block mt-1">${escapeHTML(tribute.date)}</span>
+            </div>
+
+            <!-- Flower / Pranam Homage Counter Button -->
+            <button onclick="handleOfferPranam('${tribute.id}')" 
+                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-ivory border border-champagne hover:border-gold hover:bg-champagne-light text-royal transition text-xs font-semibold shadow-sm group"
+                    title="Offer flower tribute (Pranam)">
+              <i class="fa-solid fa-spa text-gold group-hover:scale-125 transition-transform"></i>
+              <span id="pranam-count-${tribute.id}" class="text-navy text-xs font-bold">${tribute.pranamCount}</span>
+            </button>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Homage / Flower offering counter increment
+    function handleOfferPranam(tributeId) {
+      const tribute = appTributes.find(t => t.id === tributeId);
+      if (!tribute) return;
+
+      tribute.pranamCount = (tribute.pranamCount || 0) + 1;
+      saveTributesStore();
+
+      // Play soft sound
+      audioFX.playFlowerOfferTone();
+
+      // Update DOM without full re-render for performance
+      const countEl = document.getElementById(`pranam-count-${tributeId}`);
+      if (countEl) {
+        countEl.textContent = tribute.pranamCount;
+        countEl.classList.add('text-gold', 'scale-125');
+        setTimeout(() => {
+          countEl.classList.remove('scale-125');
+        }, 200);
+      }
+    }
+
+    // --- TRIBUTE MODAL & FORM SUBMISSION ---
+    function openTributeModal() {
+      const modal = document.getElementById('tributeModal');
+      modal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      document.getElementById('authorName').focus();
+    }
+
+    function closeTributeModal() {
+      const modal = document.getElementById('tributeModal');
+      modal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    function handleTributeSubmit(event) {
+      event.preventDefault();
+
+      const nameInput = document.getElementById('authorName');
+      const roleInput = document.getElementById('authorRole');
+      const affilInput = document.getElementById('authorAffiliation');
+      const catInput = document.getElementById('tributeCategory');
+      const msgInput = document.getElementById('tributeMessage');
+      const diyaInput = document.getElementById('diyaToggle');
+
+      const name = nameInput.value.trim();
+      const role = roleInput.value.trim();
+      const affil = affilInput.value.trim();
+      const category = catInput.value;
+      const message = msgInput.value.trim();
+      const hasDiya = diyaInput.checked;
+
+      if (!name || !role || !affil || !message) {
+        showToast("Please fill out all required fields.");
+        return;
+      }
+
+      const newTribute = {
+        id: 'trib_' + Date.now(),
+        name: name,
+        role: role,
+        affiliation: affil,
+        category: category,
+        message: message,
+        date: "Today &bull; Centenary",
+        pranamCount: 1,
+        hasDiya: hasDiya
+      };
+
+      // Prepend to array
+      appTributes.unshift(newTribute);
+      saveTributesStore();
+
+      // Reset form and close modal
+      document.getElementById('tributeForm').reset();
+      document.getElementById('diyaToggle').checked = true;
+      closeTributeModal();
+
+      // Re-render tributes
+      currentFilter = 'all';
+      filterTributes('all');
+
+      // Acoustic chime confirmation
+      audioFX.playChamberRevealChime();
+
+      // Smooth drop-in animation on new card
+      setTimeout(() => {
+        const newCard = document.getElementById(`card-${newTribute.id}`);
+        if (newCard) {
+          newCard.classList.add('animate-drop-in', 'ring-2', 'ring-gold');
+          newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => {
+            newCard.classList.remove('ring-2', 'ring-gold');
+          }, 2400);
+        }
+      }, 100);
+
+      showToast("Your tribute has been inscribed in the Sanctum.");
+    }
+
+    // --- ACCESSIBILITY & ESCAPE KEY HANDLER ---
+    function setupModalKeyboardHandlers() {
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeChamberModal();
+          closeTributeModal();
+        }
+      });
+
+      // Close modal on background backdrop click
+      const chamberModal = document.getElementById('chamberModal');
+      chamberModal.addEventListener('click', (e) => {
+        if (e.target === chamberModal) {
+          closeChamberModal();
+        }
+      });
+
+      const tributeModal = document.getElementById('tributeModal');
+      tributeModal.addEventListener('click', (e) => {
+        if (e.target === tributeModal) {
+          closeTributeModal();
+        }
+      });
+    }
+
+    // Helper: Toast alerts
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      const text = document.getElementById('toastMessage');
+      text.textContent = message;
+
+      toast.classList.remove('translate-y-[-100px]', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-[-100px]', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+
+    // Helper: Basic HTML escaping to prevent XSS
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>'"]/g, 
+        tag => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag)
+      );
+    }
+  </script>
 </body>
 </html>
